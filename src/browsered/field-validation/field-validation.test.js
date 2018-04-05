@@ -2,7 +2,7 @@
 
 const {describe, before, after, it} = require('mocha')
 const {expect} = require('chai')
-const sinon = require('sinon');
+const sinon = require('sinon')
 
 const MAX_AMOUNT = 100000
 
