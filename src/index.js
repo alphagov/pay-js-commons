@@ -1,6 +1,7 @@
 'use strict'
 
 const browsered = require('./browsered')
+const utils = require('./utils')
 
 // Add to window.GOVUKPAY if in browser context
 if (window) {
@@ -9,3 +10,4 @@ if (window) {
 }
 
 module.exports.browsered = browsered
+module.exports.utils = utils
