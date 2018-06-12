@@ -4,7 +4,7 @@ const browsered = require('./browsered')
 const utils = require('./utils')
 
 // Add to window.GOVUKPAY if in browser context
-if (window) {
+if (typeof window !== 'undefined') {
   window.GOVUKPAY = window.GOVUKPAY || {}
   window.GOVUKPAY = {browsered}
 }
