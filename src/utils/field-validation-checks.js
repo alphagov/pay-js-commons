@@ -4,7 +4,7 @@
 const parseInt = require('lodash/parseInt')
 
 // Local dependencies
-const emailValidator = require('../../utils/is-valid-email')
+const emailValidator = require('./is-valid-email')
 
 // Constants
 const NUMBERS_ONLY = /^\d+$/

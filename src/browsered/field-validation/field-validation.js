@@ -4,7 +4,7 @@
 const every = require('lodash/every')
 
 // Local Dependencies
-const checks = require('./field-validation-checks')
+const checks = require('../../utils/field-validation-checks')
 
 exports.enableFieldValidation = () => {
   const allForms = Array.prototype.slice.call(document.getElementsByTagName('form'))
