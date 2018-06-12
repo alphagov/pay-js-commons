@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 module.exports = karma => karma.set({
   frameworks: [
@@ -26,4 +26,4 @@ module.exports = karma => karma.set({
   reporters: ['mocha'],
   browsers: ['ChromeHeadless'],
   singleRun: true
-});
+})

@@ -7,7 +7,7 @@ const parseInt = require('lodash/parseInt')
 const emailValidator = require('../../utils/is-valid-email')
 
 // Constants
-const NUMBERS_ONLY = new RegExp('^[0-9]+$')
+const NUMBERS_ONLY = /^\d+$/
 const MAX_AMOUNT = 100000
 
 const validationErrors = {
@@ -25,42 +25,37 @@ const validationErrors = {
 exports.isEmpty = function (value) {
   if (value === '') {
     return validationErrors.required
-  } else {
-    return false
   }
+  return false
 }
 
 exports.isCurrency = function (value) {
-  if (!/^([0-9]+)(?:\.([0-9]{1,2}))?$/.test(value)) {
+  if (!/^(\d+)(?:\.(\d{1,2}))?$/.test(value)) {
     return validationErrors.currency
-  } else {
-    return false
   }
+  return false
 }
 
 exports.isValidEmail = function (value) {
   if (!emailValidator(value)) {
     return validationErrors.validEmail
-  } else {
-    return false
   }
+  return false
 }
 
 exports.isPhoneNumber = function (value) {
   const trimmedTelephoneNumber = value.replace(/\s/g, '')
   if (trimmedTelephoneNumber.length < 11 || !NUMBERS_ONLY.test(trimmedTelephoneNumber)) {
     return validationErrors.phoneNumber
-  } else {
-    return false
   }
+  return false
 }
 
 exports.isHttps = function (value) {
   if (value.substr(0, 8) !== 'https://') {
     return validationErrors.isHttps
-  } else {
-    return false
   }
+  return false
 }
 
 exports.isAboveMaxAmount = value => {
@@ -80,7 +75,6 @@ exports.isPasswordLessThanTenChars = value => !value || value.length < 10 ? vali
 exports.isNaxsiSafe = function (value) {
   if (/[<>;:`()"'=|,~[\]]+/g.test(value)) {
     return validationErrors.invalidCharacters
-  } else {
-    return false
   }
+  return false
 }

@@ -1,10 +1,9 @@
 // 'use strict'
 
-const {describe, before, after, it} = require('mocha')
+const {describe, it} = require('mocha')
 const {expect} = require('chai')
-const sinon = require('sinon')
 
-const emailValidator = require('./is-valid-email');
+const emailValidator = require('./is-valid-email')
 
 describe('When the email validation function', () => {
   describe('is passed an invalid email address', () => {

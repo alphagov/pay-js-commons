@@ -351,10 +351,6 @@ describe('Field validation', () => {
       document.getElementById('fixture').submit = sinon.spy()
     })
 
-    after(() => {
-      // document.body.innerHTML = ''
-    })
-
     describe('that is left blank', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).dataset.validateMaxLength = '5'
@@ -396,10 +392,6 @@ describe('Field validation', () => {
       document.getElementById(fixtures.inputId).dataset.validate = 'required isNaxsiSafe'
       window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
       document.getElementById('fixture').submit = sinon.spy()
-    })
-
-    after(() => {
-      // document.body.innerHTML = ''
     })
 
     describe('that is left blank', () => {
