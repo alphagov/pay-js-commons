@@ -1,5 +1,5 @@
 {
-  "name": "pay-js-commons",
+  "name": "@govuk-pay/pay-js-commons",
   "version": "0.0.1",
   "description": "Reusable js scripts for GOV.UK Pay Node.js projects",
   "main": "lib/index.js",
@@ -83,12 +83,17 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-source-map-support": "^1.2.0",
     "lint-staged": "^7.0.3",
-    "lodash": "^4.17.5",
     "mocha": "^5.0.5",
     "rfc822-validate": "^1.0.0",
     "sinon": "^4.5.0",
     "uglify-js": "^3.3.18",
     "watchify": "^3.11.0",
     "xo": "^0.20.3"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5"
   }
 }
