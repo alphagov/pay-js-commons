@@ -43,7 +43,17 @@
     "ignores": [
       "build",
       "lib"
-    ]
+    ],
+    "globals": [
+      "describe",
+      "it"
+    ],
+    "rules": {
+      "object-curly-spacing": [
+        2,
+        "always"
+      ]
+    }
   },
   "lint-staged": {
     "src/**/*.js": [
