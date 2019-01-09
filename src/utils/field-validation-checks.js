@@ -17,9 +17,9 @@ const validationErrors = {
   validEmail: 'Please use a valid email address',
   isHttps: 'URL must begin with https://',
   isAboveMaxAmount: `Choose an amount under £${MAX_AMOUNT.toLocaleString()}`,
-  isPasswordLessThanTenChars: `Choose a Password of 10 characters or longer`,
-  isGreaterThanMaxLengthChars: `The text is too long`,
-  invalidCharacters: `You cannot use any of the following characters < > ; : \` ( ) " ' = | , ~ [ ]`
+  isPasswordLessThanTenChars: 'Choose a Password of 10 characters or longer',
+  isGreaterThanMaxLengthChars: 'The text is too long',
+  invalidCharacters: 'You cannot use any of the following characters < > ; : ` ( ) " \' = | , ~ [ ]'
 }
 
 exports.isEmpty = function (value) {

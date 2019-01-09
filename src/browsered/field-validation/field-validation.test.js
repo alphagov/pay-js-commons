@@ -1,7 +1,7 @@
 // 'use strict'
 
-const {describe, before, after, it} = require('mocha')
-const {expect} = require('chai')
+const { describe, before, after, it } = require('mocha')
+const { expect } = require('chai')
 const sinon = require('sinon')
 
 const MAX_AMOUNT = 100000
@@ -42,13 +42,13 @@ describe('Field validation', () => {
       document.body.innerHTML = ''
     })
 
-    it(`It should not submit the form`, () => {
+    it('It should not submit the form', () => {
       expect(document.getElementById('fixture').submit.called).to.equal(false)
     })
-    it(`It should add 'error' as a class to the .form-group`, () => {
+    it('It should add \'error\' as a class to the .form-group', () => {
       expect(document.getElementsByClassName('form-group')[0].classList.contains('error')).to.equal(true)
     })
-    it(`It should show an error summary`, () => {
+    it('It should show an error summary', () => {
       expect(document.getElementById('error-summary')).to.exist // eslint-disable-line no-unused-expressions
     })
     it(`The error summary should link to the errored input ‘${fixtures.inputId}’`, () => {
@@ -74,9 +74,9 @@ describe('Field validation', () => {
         document.body.innerHTML = ''
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`This field cannot be blank`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('This field cannot be blank')
       })
     })
     describe('that has value', () => {
@@ -95,7 +95,7 @@ describe('Field validation', () => {
         document.body.innerHTML = ''
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
@@ -117,9 +117,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
     describe('that is just non-numeric characters', () => {
@@ -128,9 +128,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
     describe('that has non-numeric characters in it', () => {
@@ -139,9 +139,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
     describe('that is has valid currency amount in pounds with no pence', () => {
@@ -150,7 +150,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
@@ -160,7 +160,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
@@ -182,9 +182,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Please use a valid email address`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Please use a valid email address')
       })
     })
     describe('that has invalid email', () => {
@@ -193,9 +193,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Please use a valid email address`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Please use a valid email address')
       })
     })
     describe('that is valid email', () => {
@@ -204,7 +204,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
@@ -226,9 +226,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Must be a 11 digit phone number`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Must be a 11 digit phone number')
       })
     })
     describe('that has invalid phone number', () => {
@@ -237,9 +237,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Must be a 11 digit phone number`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Must be a 11 digit phone number')
       })
     })
     describe('that is valid phone number', () => {
@@ -248,7 +248,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
@@ -271,9 +271,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
     describe('where value is too large', () => {
@@ -282,7 +282,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Choose an amount under £${MAX_AMOUNT.toLocaleString()}`)
       })
@@ -293,7 +293,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
@@ -316,9 +316,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Choose a Password of 10 characters or longer`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose a Password of 10 characters or longer')
       })
     })
     describe('where value is not long enough', () => {
@@ -327,9 +327,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Choose a Password of 10 characters or longer`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose a Password of 10 characters or longer')
       })
     })
     describe('where value is long enough', () => {
@@ -338,7 +338,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
@@ -357,9 +357,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`This field cannot be blank`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('This field cannot be blank')
       })
     })
     describe('where value is too long', () => {
@@ -369,9 +369,9 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`The text is too long`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('The text is too long')
       })
     })
     describe('where value is not too long', () => {
@@ -381,7 +381,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
@@ -399,20 +399,20 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`This field cannot be blank`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('This field cannot be blank')
       })
     })
     describe('where value contains NAXSI flaggable characters', () => {
       before('Act', () => {
-        document.getElementById(fixtures.inputId).value = `<?php echo 'bad things'; ?>`
+        document.getElementById(fixtures.inputId).value = '<?php echo \'bad things\'; ?>'
         document.querySelector('button').click()
       })
 
-      it(`should show the error message in the label`, () => {
+      it('should show the error message in the label', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(false)
-        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`You cannot use any of the following characters &lt; &gt; ; : \` ( ) " ' = | , ~ [ ]`)
+        expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('You cannot use any of the following characters &lt; &gt; ; : ` ( ) " \' = | , ~ [ ]')
       })
     })
     describe('where value is NAXSI safe', () => {
@@ -421,7 +421,7 @@ describe('Field validation', () => {
         document.querySelector('button').click()
       })
 
-      it(`should submit the form`, () => {
+      it('should submit the form', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })

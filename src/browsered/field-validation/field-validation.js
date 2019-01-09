@@ -105,7 +105,7 @@ function populateErrorSummary(form) {
   const errorMessages = erroringFields.map(field => {
     const id = field.getAttribute('for')
     const label = field.innerHTML.split('<')[0].trim()
-    return {label, id}
+    return { label, id }
   })
 
   form.parentNode.insertAdjacentHTML(
