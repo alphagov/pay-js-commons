@@ -92,7 +92,6 @@ This requires a link to begin with https://
 </form>
 ```
 
-
 #### Number is less than maximum value
 This requires the value is less than £100,000 as that has been deemed sensible…
 
@@ -104,7 +103,6 @@ This requires the value is less than £100,000 as that has been deemed sensible�
   </div>
 </form>
 ```
-
 
 #### Password
 This requires a password be at least 10 chars

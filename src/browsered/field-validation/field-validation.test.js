@@ -58,6 +58,7 @@ describe('Field validation', () => {
       expect(document.querySelector(`a[href="#${fixtures.inputId}"]`).innerHTML).to.equal(`${fixtures.label}`)
     })
   })
+
   describe('For a required input', () => {
     describe('that is left blank', () => {
       before('Arrange', () => {
@@ -79,6 +80,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('This field cannot be blank')
       })
     })
+
     describe('that has value', () => {
       before('Arrange', () => {
         document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
@@ -100,6 +102,7 @@ describe('Field validation', () => {
       })
     })
   })
+
   describe('For a currency input', () => {
     before('Arrange', () => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
@@ -122,6 +125,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
+
     describe('that is just non-numeric characters', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = 'hello'
@@ -133,6 +137,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
+
     describe('that has non-numeric characters in it', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '10g.00'
@@ -144,6 +149,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
+
     describe('that is has valid currency amount in pounds with no pence', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '10'
@@ -154,6 +160,7 @@ describe('Field validation', () => {
         expect(document.getElementById('fixture').submit.called).to.equal(true)
       })
     })
+
     describe('that is has valid currency amount in pounds and pence', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '10.00'
@@ -165,6 +172,7 @@ describe('Field validation', () => {
       })
     })
   })
+
   describe('For an email input', () => {
     before('Arrange', () => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
@@ -187,6 +195,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Please use a valid email address')
       })
     })
+
     describe('that has invalid email', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = 'invalid@testemail'
@@ -198,6 +207,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Please use a valid email address')
       })
     })
+
     describe('that is valid email', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = 'invalid@testemail.com'
@@ -209,6 +219,7 @@ describe('Field validation', () => {
       })
     })
   })
+
   describe('For an telephone number input', () => {
     before('Arrange', () => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
@@ -231,6 +242,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Must be a 11 digit phone number')
       })
     })
+
     describe('that has invalid phone number', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '077'
@@ -242,6 +254,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Must be a 11 digit phone number')
       })
     })
+
     describe('that is valid phone number', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '077 777 777 77'
@@ -253,6 +266,7 @@ describe('Field validation', () => {
       })
     })
   })
+
   describe('To check is currency and is below max amount', () => {
     before('Arrange', () => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
@@ -276,6 +290,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
+
     describe('where value is too large', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '1000000000000'
@@ -287,6 +302,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal(`Choose an amount under £${MAX_AMOUNT.toLocaleString()}`)
       })
     })
+
     describe('where value is within range', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '100'
@@ -298,6 +314,7 @@ describe('Field validation', () => {
       })
     })
   })
+
   describe('To check if password is at least 10 characters', () => {
     before('Arrange', () => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
@@ -321,6 +338,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose a Password of 10 characters or longer')
       })
     })
+
     describe('where value is not long enough', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '387nrd'
@@ -332,6 +350,18 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('Choose a Password of 10 characters or longer')
       })
     })
+
+    describe('where value is exactly 10 characters', () => {
+      before('Act', () => {
+        document.getElementById(fixtures.inputId).value = '1234567890'
+        document.querySelector('button').click()
+      })
+
+      it('should submit the form', () => {
+        expect(document.getElementById('fixture').submit.called).to.equal(true)
+      })
+    })
+
     describe('where value is long enough', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '893n7e98ynz283n98nz3'
@@ -343,6 +373,7 @@ describe('Field validation', () => {
       })
     })
   })
+
   describe('To check if required field is less than max characters allowed', () => {
     before('Arrange', () => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
@@ -362,6 +393,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('This field cannot be blank')
       })
     })
+
     describe('where value is too long', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).dataset.validateMaxLength = '5'
@@ -374,6 +406,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('The text is too long')
       })
     })
+
     describe('where value is not too long', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).dataset.validateMaxLength = '5'
@@ -386,6 +419,7 @@ describe('Field validation', () => {
       })
     })
   })
+
   describe('To check if required input is NAXSI safe', () => {
     before('Arrange', () => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
@@ -404,6 +438,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('This field cannot be blank')
       })
     })
+
     describe('where value contains NAXSI flaggable characters', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '<?php echo \'bad things\'; ?>'
@@ -415,6 +450,7 @@ describe('Field validation', () => {
         expect(document.getElementsByClassName('error-message')[0].innerHTML).to.equal('You cannot use any of the following characters &lt; &gt; ; : ` ( ) " \' = | , ~ [ ]')
       })
     })
+
     describe('where value is NAXSI safe', () => {
       before('Act', () => {
         document.getElementById(fixtures.inputId).value = '123'
