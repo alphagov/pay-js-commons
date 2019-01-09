@@ -6,6 +6,7 @@ Reusable js scripts for GOV.UK Pay Node.js projects
 
 - [Browsered scripts](#browsered-scripts)
 - [Utilities](#utilities)
+- [Nunjucks filters](#nunjucks-filters)
 
 ## Browsered scripts
 This is a colection of client side scripts we use throught the GOV.UK 
@@ -141,4 +142,27 @@ i.e. ``< > ; : ` ( ) " \' = | , ~ [ ]``
     <input name="title" data-validate="isNaxsiSafe" value="" />
   </div>
 </form>
+```
+
+## Utilities
+
+These are small functions that power the nunjucks filters but can also be used for server side stuff too.
+
+## Nunjucks filters
+
+These get loaded in to the Nunjucks environment and then can apply changes to variables in templates.
+
+For example if a country comes in as ISO code `EN` it can be converted to it’s name like so
+
+```html
+  <p>{{ countryCode | countryISOtoName }}</p>
+```
+
+Or a pence value can be converted to GBP
+
+```html
+  <dl>
+    <dt>Amount:</dt>
+    <dd>{{ amount | penceToPounds }}</dd>
+  </dl>
 ```
