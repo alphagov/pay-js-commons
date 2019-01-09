@@ -29,7 +29,7 @@ Validators:
 - [belowMaxAmount](#number-is-less-than-maximum-value)
 - [passwordLessThanTenChars](#password)
 - [isFieldGreaterThanMaxLengthChars](#maximum-character-limit)
-- [isNaxsiSafe](#isNaxsiSafe)
+- [isNaxsiSafe](#naxsi)
 
 #### Required
 This requires a value from a given input
@@ -129,8 +129,9 @@ is set within a `data-attribute`
 </form>
 ```
 
-#### Maximum character limit
-This checks whether a field contains characters than would cause NAXSI to get upset
+#### NAXSI
+This checks whether a field contains characters than would cause NAXSI to get upset,
+meaning characters that look like code injection
 i.e. ``< > ; : ` ( ) " \' = | , ~ [ ]``
 
 ```html
