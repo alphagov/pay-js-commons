@@ -5,7 +5,8 @@
   "main": "lib/index.js",
   "scripts": {
     "clean": "rm -rf lib",
-    "transpile": "npm run clean && babel src --out-dir lib",
+    "copy": "cp -R src/data lib/data",
+    "transpile": "npm run clean && babel src --out-dir lib && npm run copy",
     "prepare": "npm run transpile",
     "test": "karma start"
   },
