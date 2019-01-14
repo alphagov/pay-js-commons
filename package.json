@@ -103,7 +103,7 @@
     "sinon": "^7.2.2",
     "uglify-js": "^3.3.18",
     "watchify": "^3.11.0",
-    "xo": "^0.23.0"
+    "xo": "^0.24.0"
   },
   "directories": {
     "lib": "lib"
