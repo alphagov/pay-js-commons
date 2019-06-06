@@ -89,7 +89,7 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-promise": "^4.0.1",
     "husky": "^2.4.1",
-    "jsdom": "^14.0.0",
+    "jsdom": "^15.1.1",
     "jsdom-global": "^3.0.2",
     "karma": "^4.0.0",
     "karma-browserify": "^6.0.0",
