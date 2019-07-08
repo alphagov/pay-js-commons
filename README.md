@@ -172,6 +172,7 @@ Versions are released to npm, to do so you need to be a member of https://www.np
 
 Once you are a member run the following commands
 
+- make sure you are on the latest master version of `pay-js-commons`
 - `npm login` (if you’re not already logged in)
 - `npm version major|minor|patch` depending on which sort of release it is
 - `npm publish`
