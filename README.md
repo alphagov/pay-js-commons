@@ -166,3 +166,16 @@ Or a pence value can be converted to GBP
     <dd>{{ amount | penceToPounds }}</dd>
   </dl>
 ```
+# Releasing a new version
+
+Versions are released to npm, to do so you need to be a member of https://www.npmjs.com/org/govuk-pay.
+
+Once you are a member run the following commands
+
+- `npm login` (if you’re not already logged in)
+- `npm version major|minor|patch` depending on which sort of release it is
+- `npm publish`
+
+Once you have done this it should be available instantly you can check by visiting https://www.npmjs.com/package/@govuk-pay/pay-js-commons and looking for your release, should say _published a few seconds ago_.
+
+Then you can go around our repos bumping the version in this [sort of fashion](https://github.com/alphagov/pay-frontend/pull/940).
