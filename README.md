@@ -7,6 +7,7 @@ Reusable js scripts for GOV.UK Pay Node.js projects
 - [Browsered scripts](#browsered-scripts)
 - [Utilities](#utilities)
 - [Nunjucks filters](#nunjucks-filters)
+- [Releasing a new version](#releasing-a-new-version)
 
 ## Browsered scripts
 This is a colection of client side scripts we use throught the GOV.UK 
