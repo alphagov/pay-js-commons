@@ -8,7 +8,7 @@ $govuk-font-family: -apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ub
 $custom-banner-colour: #00A4CA;
 $custom-banner-border-colour: #ffffff;
 $custom-text-colour: #ffffff;
-$logo-image-height: 3em;
+$logo-image-height: 2em;
 
 .custom-branding {
   @if $logo-image-height != null {
