@@ -3,7 +3,7 @@
 const browsered = require('./browsered')
 const utils = require('./utils')
 const nunjucksFilters = require('./nunjucks-filters')
-const loggingKeys = require('./logging-keys')
+const logging = require('./logging')
 
 // Add to window.GOVUKPAY if in browser context
 if (typeof window !== 'undefined') {
@@ -11,4 +11,4 @@ if (typeof window !== 'undefined') {
   window.GOVUKPAY = { browsered }
 }
 
-module.exports = { browsered, utils, nunjucksFilters, loggingKeys }
+module.exports = { browsered, utils, nunjucksFilters, logging }
