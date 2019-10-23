@@ -177,6 +177,7 @@ Once you are a member run the following commands
 - `npm login` (if you’re not already logged in)
 - `npm version major|minor|patch` depending on which sort of release it is
 - `npm publish`
+- A new commit is created automatically to increment the version, create a PR and merge this
 
 Once you have done this it should be available instantly you can check by visiting https://www.npmjs.com/package/@govuk-pay/pay-js-commons and looking for your release, should say _published a few seconds ago_.
 
