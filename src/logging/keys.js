@@ -88,3 +88,12 @@ exports.AWS_ERROR_CODE = 'aws_error_code'
 
 // The correlation id for the request
 exports.CORRELATION_ID = 'x_request_id'
+
+// Payment External Id
+exports.PAYMENT_EXTERNAL_ID = 'payment_external_id'
+
+// Refund External Id
+exports.REFUND_EXTERNAL_ID = 'refund_external_id'
+
+// Secure Token
+exports.SECURE_TOKEN = 'secure_token'
