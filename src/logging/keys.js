@@ -30,11 +30,11 @@ exports.GATEWAY_CARD_OPERATION = 'gateway_card_operation'
 // The amount of a payment in pence
 exports.AMOUNT = 'amount'
 
-// The ID GOV.UK Pay gives to a payment, mandate, refund etc.
-exports.EXTERNAL_ID = 'external_id'
+// Mandate external id
+exports.MANDATE_EXTERNAL_ID = 'mandate_external_id'
 
-// The ID a provider gives to a payment, mandate, refund etc.
-exports.PROVIDER_ID = 'provider_id'
+// The PSP's identifier for a payment
+exports.PROVIDER_PAYMENT_ID = 'provider_payment_id'
 
 // The ID a provider gives to an event (e.g. one in a notification)
 exports.PROVIDER_EVENT_ID = 'provider_event_id'
@@ -97,3 +97,9 @@ exports.REFUND_EXTERNAL_ID = 'refund_external_id'
 
 // Secure Token
 exports.SECURE_TOKEN = 'secure_token'
+
+// User external id
+exports.USER_EXTERNAL_ID = 'user_external_id'
+
+// A service's external id
+exports.SERVICE_EXTERNAL_ID = 'service_external_id'
