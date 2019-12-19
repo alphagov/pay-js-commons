@@ -8,7 +8,7 @@ $govuk-font-family: -apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ub
 $custom-banner-colour: #ffffff;
 $custom-banner-border-colour: #ffffff;
 $custom-text-colour: #ffffff;
-$logo-image-height: 2em;
+$logo-image-height: 4em;
 
 .custom-branding {
   @if $logo-image-height != null {
@@ -40,11 +40,18 @@ $logo-image-height: 2em;
     border-bottom-color: $custom-banner-border-colour;
   }
 
+  .govuk-header__logo {
+    float: right;
+  }
+
   @include govuk-media-query($from: tablet) {
     .govuk-header__content {
       width: 66%;
       vertical-align: bottom;
       margin-bottom: 7px;
+    }
+    .govuk-header__logo {
+      margin-right: -.75rem;
     }
   }
 
