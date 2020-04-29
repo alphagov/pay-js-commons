@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf lib",
     "copy": "cp -R src/data lib/data",
-    "transpile": "npm run clean && babel src --out-dir lib && npm run copy",
+    "transpile": "npm run clean && babel src --out-dir lib --ignore '**/*.test.js' && npm run copy",
     "prepare": "npm run transpile",
     "test": "karma start"
   },
