@@ -109,7 +109,7 @@
   },
   "dependencies": {
     "lodash": "4.17.15",
-    "moment-timezone": "0.5.28",
+    "moment-timezone": "0.5.31",
     "slugify": "1.4.0",
     "winston": "3.2.1",
     "rfc822-validate": "1.0.0"
