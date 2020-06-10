@@ -14,16 +14,17 @@ $logo-image-height: 2em;
   @if $logo-image-height != null {
     .custom-branding-image {
       max-height: $logo-image-height;
-
-      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-        width: 100%;
-      }
+      width: 100%;
     }
   }
 
   .govuk-header {
     background-color: $custom-banner-colour;
   }
+
+  .govuk-header__logotype{
+    margin-top: 5px;
+  } 
 
   .govuk-header__link{
     &:link,
