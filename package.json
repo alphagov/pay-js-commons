@@ -110,7 +110,7 @@
   "dependencies": {
     "lodash": "4.17.15",
     "moment-timezone": "0.5.31",
-    "slugify": "1.4.0",
+    "slugify": "1.4.2",
     "winston": "3.3.3",
     "rfc822-validate": "1.0.0"
   }
