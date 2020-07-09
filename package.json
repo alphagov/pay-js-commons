@@ -62,6 +62,9 @@
       "git add"
     ]
   },
+  "standard": {
+    "env": [ "mocha" ]
+  },
   "babel": {
     "presets": [
       [
