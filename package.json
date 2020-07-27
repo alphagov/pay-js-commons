@@ -4,6 +4,7 @@
   "description": "Reusable js scripts for GOV.UK Pay Node.js projects",
   "main": "lib/index.js",
   "scripts": {
+    "compile": "npm run transpile",  
     "clean": "rm -rf lib",
     "copy": "cp -R src/data lib/data",
     "transpile": "npm run clean && babel src --out-dir lib --ignore '**/*.test.js' && npm run copy",
