@@ -24,6 +24,12 @@ module.exports = karma => karma.set({
     'src/**/*.js': ['browserify']
   },
   reporters: ['mocha'],
-  browsers: ['ChromeHeadless'],
+  browsers: ['ChromiumNoSandbox'],
+  customLaunchers: {
+    ChromiumNoSandbox: {
+      base: 'ChromiumHeadless',
+      flags: ['--no-sandbox'],
+    }
+  },
   singleRun: true
 })

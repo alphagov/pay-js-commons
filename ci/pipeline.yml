@@ -1,0 +1,58 @@
+---
+resource_types:
+
+    - name: pull-request
+      type: docker-image
+      source: 
+        repository: teliaoss/github-pr-resource
+
+resources:
+
+    - name: pull-request
+      type: pull-request
+      source:
+        repository: alphagov/pay-js-commons
+        access_token: ((github-access-token))
+
+jobs:
+  - name: build-pr
+    serial: true
+    plan:
+      - get: pull-request
+        trigger: true
+      - put: pull-request
+        params:
+          path: pull-request
+          status: pending
+      - task: build
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: node
+              tag: alpine3.12
+          inputs:
+            - name: pull-request
+          caches:
+            - path: pull-request/vendor
+          run:
+            path: sh
+            dir: pull-request
+            args:
+              - -c
+              - |
+                apk add --no-cache chromium
+                export CHROMIUM_BIN="$(which chromium)"
+                npm install
+                npm run test
+        on_failure:
+          put: pull-request
+          params:
+            description: "Build failed on PR"
+            path: pull-request
+            status: failure
+      - put: pull-request
+        params:
+          path: pull-request
+          status: success
