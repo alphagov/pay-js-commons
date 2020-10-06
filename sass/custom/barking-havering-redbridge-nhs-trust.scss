@@ -46,6 +46,10 @@ $logo-image-height: 2em;
       vertical-align: bottom;
       margin-bottom: 7px;
     }
+    .govuk-header__logo {
+      float: right;
+      margin-right: -.75rem;
+    }
   }
 
   .govuk-button {
