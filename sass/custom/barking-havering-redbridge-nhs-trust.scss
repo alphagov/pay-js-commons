@@ -11,7 +11,7 @@ $custom-text-colour: #000000;
 $logo-image-width: 320px;
 
 .custom-branding {
-  @if $logo-image-height != null {
+  @if $logo-image-width != null {
     .custom-branding-image {
       width: $logo-image-width;
 
