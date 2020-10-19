@@ -7,7 +7,7 @@ module.exports = karma => karma.set({
     'mocha'
   ],
   files: [
-    'src/**/*.js'
+    'src/!(analytics)**/*.js'
   ],
   plugins: [
     'karma-mocha',

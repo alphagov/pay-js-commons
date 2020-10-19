@@ -8,8 +8,11 @@
     "clean": "rm -rf lib",
     "copy": "cp -R src/data lib/data",
     "transpile": "npm run clean && babel src --out-dir lib --ignore '**/*.test.js' && npm run copy",
-    "prepare": "npm run transpile",
-    "test": "karma start"
+    "browserify-analytics": "browserify src/analytics/index.js -o lib/analytics/dist/cookies.js -t brfs -t babelify",
+    "prepare": "npm run transpile && npm run browserify-analytics",
+    "test": "npm run jest-tests npm && npm run karma-tests",
+    "karma-tests": "karma start",
+    "jest-tests": "jest src/analytics"
   },
   "husky": {
     "hooks": {
@@ -89,12 +92,15 @@
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
     "babelify": "^10.0.0",
+    "brfs": "^2.0.2",
     "browser-env": "^3.2.6",
     "browserify": "^16.2.3",
     "chai": "^4.2.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-promise": "^4.2.1",
     "husky": "^4.0.0",
+    "jest": "^26.6.0",
+    "js-cookie": "^2.2.1",
     "jsdom": "^16.0.0",
     "jsdom-global": "^3.0.2",
     "karma": "^5.0.1",
