@@ -31,21 +31,49 @@ function setAnalyticsCookie(userConsentedToAnalytics = false) {
   Cookies.set(GOVUK_PAY_ANALYTICS_CONSENT_COOKIE_NAME, cookieValue, cookieAttributes)
 }
 
-function hideBannerIfExists() {
+function hideBannerIfExists(event) {
   const banner = document.querySelector(`#${ANALYTICS_CONSENT_BANNER_ID}`)
   if (banner) {
     banner.style.display = 'none'
   }
+
+  if (event.target) {
+    event.preventDefault();
+  }
 }
+
+function showConfirmationMessage (analyticsConsent) {
+  var messagePrefix = analyticsConsent
+    ? "You’ve accepted analytics cookies."
+    : "You told us not to use analytics cookies.";
+
+  var $cookieBannerMainContent = document.querySelector(
+    ".pay-cookie-banner__wrapper"
+  );
+
+  var $cookieBannerConfirmationMessage = document.querySelector(
+    ".pay-cookie-banner__confirmation-message"
+  );
+  
+  $cookieBannerConfirmationMessage.insertAdjacentText(
+    "afterbegin",
+    messagePrefix
+  );
+
+  $cookieBannerMainContent.style.display = "none";
+
+  var $cookieBannerConfirmationWrapper = document.querySelector(".pay-cookie-banner__confirmation") 
+  $cookieBannerConfirmationWrapper.style.display = "block";
+};
 
 function acceptAnalyticsCookies() {
   setAnalyticsCookie(true)
-  hideBannerIfExists()
+  showConfirmationMessage(true)
 }
 
 function rejectAnalyticsCookies() {
   setAnalyticsCookie(false)
-  hideBannerIfExists()
+  showConfirmationMessage(false)
 }
 
 function createBannerHTMLElement(consentProvidedCallback = () => {}) {
@@ -61,6 +89,12 @@ function createBannerHTMLElement(consentProvidedCallback = () => {}) {
     acceptButton.addEventListener('click', consentProvidedCallback)
     rejectButton.addEventListener('click', rejectAnalyticsCookies)
   }
+
+  const hideCookieBannerLink = banner.querySelector('button[data-hide-cookie-banner]')
+
+  if (hideCookieBannerLink) {
+    hideCookieBannerLink.addEventListener('click', hideBannerIfExists)
+  } 
 
   return banner
 }

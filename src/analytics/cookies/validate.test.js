@@ -76,8 +76,60 @@ describe("Cookie Banner", () => {
       expect(
         mockFunction.mock.calls.length
       ).toBe(0);
+    })
+
+    it(`click YES on the cookie banner - displays confirmation message`, () => {
+        const mockFunction = jest.fn()  
+        validate.showBannerIfConsentNotSet(mockFunction) 
+      
+        document.querySelector("button[data-accept-cookies=true]").click();
+  
+        const confirmBanner = document.querySelector(
+          ".pay-cookie-banner__confirmation"
+        );
+
+        expect(confirmBanner.style.display).toEqual("block");
+        
+        expect(
+          mockFunction.mock.calls.length
+        ).toBe(1);
+      });
+
+    it(`click NO on the cookie banner - displays confirmation message`, () => {
+      const mockFunction = jest.fn()  
+      validate.showBannerIfConsentNotSet(mockFunction) 
+    
+      document.querySelector("button[data-accept-cookies=false]").click();
+
+      const confirmBanner = document.querySelector(
+        ".pay-cookie-banner__confirmation"
+      );
+
+      expect(confirmBanner.style.display).toEqual("block");
+      
+      expect(
+        mockFunction.mock.calls.length
+      ).toBe(0);
+    });
   })
-  })
+
+  describe("Confirmation mesage", () => {
+      it(`hide button works`, () => {
+      validate.showBannerIfConsentNotSet() 
+    
+      document.querySelector("button[data-accept-cookies=true]").click();
+
+      const confirmBanner = document.querySelector(
+        ".pay-cookie-banner__confirmation"
+      );
+
+      expect(confirmBanner.style.display).toEqual("block");
+
+      confirmBanner.querySelector(".pay-cookie-banner__hide-button").click();
+      const banner = document.querySelector('#pay-cookie-banner')
+      expect(banner.style.display).toEqual("none");
+    });
+  });
 
   describe("hasAnalyticsConsent", () => {
     it(`return FALSE when no cookie present`, () => {
@@ -100,47 +152,4 @@ describe("Cookie Banner", () => {
       expect(hasAnalyticsConsent).toEqual(false);
     });
   })
-
-  // TODO - Need to add confirmation message and then reinstate tests below
-
-  // describe("New User", () => {
-
-  //   it(`click YES on the cookie banner - displays confirmation message`, () => {
-  //     window.GovUkPay.CookieBanner.checkForBannerAndInit();
-  //     document.querySelector("button[data-accept-cookies=true]").click();
-
-  //     const confirmBanner = document.querySelector(
-  //       ".pay-cookie-banner__confirmation"
-  //     );
-  //     expect(confirmBanner.style.display).toEqual("block");
-  //     expect(
-  //       window.GovUkPay.InitAnalytics.InitialiseAnalytics.mock.calls.length
-  //     ).toBe(1);
-  //   });
-
-  //   it(`click NO on the cookie banner - displays confirmation message`, () => {
-  //     window.GovUkPay.CookieBanner.checkForBannerAndInit();
-  //     document.querySelector("button[data-accept-cookies=false]").click();
-
-  //     const confirmBanner = document.querySelector(
-  //       ".pay-cookie-banner__confirmation"
-  //     );
-  //     expect(confirmBanner.style.display).toEqual("block");
-  //   });
-  // });
-
-  // describe("Confirmation mesage", () => {
-  //   it(`hide button works`, () => {
-  //     window.GovUkPay.CookieBanner.checkForBannerAndInit();
-  //     document.querySelector("button[data-accept-cookies=true]").click();
-
-  //     const confirmBanner = document.querySelector(
-  //       ".pay-cookie-banner__confirmation"
-  //     );
-  //     expect(confirmBanner.style.display).toEqual("block");
-
-  //     confirmBanner.querySelector(".pay-cookie-banner__hide-button").click();
-  //     expect(confirmBanner.style.display).toEqual("none");
-  //   });
-  // });
 });
