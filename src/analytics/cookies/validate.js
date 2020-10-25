@@ -13,12 +13,14 @@ function hasAnalyticsConsent() {
   return Boolean(parsed) && parsed.analytics === true
 }
 
-function isLocalDomain() {
-  return ['localhost', '127.0.0.1', ''].includes(window.location.hostname)
-}
-
 function getCookieDomain() {
-  return window.location.hostname.replace(/^www\./, '')
+  const PROD_HOSTNAME = 'payments.service.gov.uk'
+
+  if ([PROD_HOSTNAME].includes(window.location.hostname)){
+    return PROD_HOSTNAME 
+  }
+  
+  return undefined
 }
 
 function setAnalyticsCookie(userConsentedToAnalytics = false) {
@@ -26,7 +28,7 @@ function setAnalyticsCookie(userConsentedToAnalytics = false) {
   const cookieAttributes = {
     expires: 365,
     path: '/',
-    domain: isLocalDomain() ? undefined : getCookieDomain()
+    domain: getCookieDomain()
   }
   Cookies.set(GOVUK_PAY_ANALYTICS_CONSENT_COOKIE_NAME, cookieValue, cookieAttributes)
 }
