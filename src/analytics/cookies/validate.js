@@ -16,10 +16,10 @@ function hasAnalyticsConsent() {
 function getCookieDomain() {
   const PROD_HOSTNAME = 'payments.service.gov.uk'
 
-  if ([PROD_HOSTNAME].includes(window.location.hostname)){
-    return PROD_HOSTNAME 
+  if (window.location.hostname.includes(PROD_HOSTNAME)) {
+    return PROD_HOSTNAME
   }
-  
+
   return undefined
 }
 
@@ -40,33 +40,30 @@ function hideBannerIfExists(event) {
   }
 
   if (event.target) {
-    event.preventDefault();
+    event.preventDefault()
   }
 }
 
-function showConfirmationMessage (analyticsConsent) {
-  var messagePrefix = analyticsConsent
-    ? "You’ve accepted analytics cookies."
-    : "You told us not to use analytics cookies.";
+function showConfirmationMessage(analyticsConsent) {
+  const messagePrefix = analyticsConsent ?
+    'You’ve accepted analytics cookies.' :
+    'You told us not to use analytics cookies.'
 
-  var $cookieBannerMainContent = document.querySelector(
-    ".pay-cookie-banner__wrapper"
-  );
+  const $cookieBannerMainContent = document.querySelector(
+    '.pay-cookie-banner__wrapper'
+  )
 
-  var $cookieBannerConfirmationMessage = document.querySelector(
-    ".pay-cookie-banner__confirmation-message"
-  );
-  
-  $cookieBannerConfirmationMessage.insertAdjacentText(
-    "afterbegin",
-    messagePrefix
-  );
+  const $cookieBannerConfirmationMessage = document.querySelector(
+    '.pay-cookie-banner__confirmation-message'
+  )
 
-  $cookieBannerMainContent.style.display = "none";
+  $cookieBannerConfirmationMessage.prepend(messagePrefix)
 
-  var $cookieBannerConfirmationWrapper = document.querySelector(".pay-cookie-banner__confirmation") 
-  $cookieBannerConfirmationWrapper.style.display = "block";
-};
+  $cookieBannerMainContent.style.display = 'none'
+
+  const $cookieBannerConfirmationWrapper = document.querySelector('.pay-cookie-banner__confirmation')
+  $cookieBannerConfirmationWrapper.style.display = 'block'
+}
 
 function acceptAnalyticsCookies() {
   setAnalyticsCookie(true)
@@ -96,7 +93,7 @@ function createBannerHTMLElement(consentProvidedCallback = () => {}) {
 
   if (hideCookieBannerLink) {
     hideCookieBannerLink.addEventListener('click', hideBannerIfExists)
-  } 
+  }
 
   return banner
 }
