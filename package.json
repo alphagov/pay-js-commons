@@ -94,7 +94,7 @@
     "babelify": "^10.0.0",
     "brfs": "^2.0.2",
     "browser-env": "^3.2.6",
-    "browserify": "^16.2.3",
+    "browserify": "^17.0.0",
     "chai": "^4.2.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-promise": "^4.2.1",
