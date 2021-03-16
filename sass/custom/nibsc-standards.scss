@@ -25,7 +25,7 @@ $logo-image-height: 2em;
     background-color: $custom-banner-colour;
   }
 
-  .govuk-header__link{
+  .govuk-header__link {
     &:link,
     &:visited {
       color: $custom-text-colour;
@@ -33,7 +33,7 @@ $logo-image-height: 2em;
   }
 
   .govuk-header__link--service-name {
-    color: $custom-text-colour;
+    display: none;
   }
 
   .govuk-header__container {
