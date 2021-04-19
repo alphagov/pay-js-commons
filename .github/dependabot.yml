@@ -9,4 +9,4 @@ updates:
   labels:
   - dependencies
   - govuk-pay
-  - security
+  - javascript
