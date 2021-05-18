@@ -16,7 +16,7 @@ exports.enableFieldValidation = () => {
   })
 }
 
-function initValidation(e) {
+function initValidation (e) {
   const form = e.target
   e.preventDefault()
   clearPreviousErrors()
@@ -30,7 +30,7 @@ function initValidation(e) {
   }
 }
 
-function clearPreviousErrors() {
+function clearPreviousErrors () {
   const previousErrorsMessages = Array.prototype.slice.call(document.querySelectorAll('.error-message, .error-summary'))
   const previousErrorsFields = Array.prototype.slice.call(document.querySelectorAll('.form-group.error'))
 
@@ -38,7 +38,7 @@ function clearPreviousErrors() {
   previousErrorsFields.map(errorField => errorField.classList.remove('error'))
 }
 
-function findFields(form) {
+function findFields (form) {
   const formFields = Array.prototype.slice.call(form.querySelectorAll('input, textarea, select'))
 
   return formFields.filter(field => {
@@ -46,7 +46,7 @@ function findFields(form) {
   })
 }
 
-function validateField(form, field) {
+function validateField (form, field) {
   let result
   const validationTypes = field.getAttribute('data-validate').split(' ')
 
@@ -91,7 +91,7 @@ function validateField(form, field) {
   return !field.closest('.form-group').classList.contains('error')
 }
 
-function applyErrorMessaging(form, field, result) {
+function applyErrorMessaging (form, field, result) {
   const formGroup = field.closest('.form-group')
   if (!formGroup.classList.contains('error')) {
     formGroup.classList.add('error')
@@ -100,7 +100,7 @@ function applyErrorMessaging(form, field, result) {
   }
 }
 
-function populateErrorSummary(form) {
+function populateErrorSummary (form) {
   const erroringFields = Array.prototype.slice.call(form.querySelectorAll('.form-group.error label'))
   const errorMessages = erroringFields.map(field => {
     const id = field.getAttribute('for')
