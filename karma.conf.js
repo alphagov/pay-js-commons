@@ -28,7 +28,7 @@ module.exports = karma => karma.set({
   customLaunchers: {
     ChromiumNoSandbox: {
       base: 'ChromiumHeadless',
-      flags: ['--no-sandbox'],
+      flags: ['--no-sandbox']
     }
   },
   singleRun: true

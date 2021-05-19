@@ -12,7 +12,8 @@
     "prepare": "npm run transpile && npm run browserify-analytics",
     "test": "npm run jest-tests npm && npm run karma-tests",
     "karma-tests": "karma start",
-    "jest-tests": "jest src/analytics"
+    "jest-tests": "jest src/analytics",
+    "lint": "./node_modules/.bin/standard --fix"
   },
   "husky": {
     "hooks": {
@@ -67,8 +68,23 @@
     ]
   },
   "standard": {
+    "globals": [
+      "describe",
+      "context",
+      "before",
+      "beforeEach",
+      "after",
+      "afterEach",
+      "it",
+      "expect"
+    ],
+    "ignore": [
+      "app/assets/**/*.js",
+      "node_modules_local/**/*.*"
+    ],
     "env": [
-      "mocha"
+      "mocha",
+      "jest"
     ]
   },
   "babel": {
@@ -122,8 +138,9 @@
   "dependencies": {
     "lodash": "4.17.21",
     "moment-timezone": "0.5.33",
+    "rfc822-validate": "1.0.0",
     "slugify": "1.5.3",
-    "winston": "3.3.3",
-    "rfc822-validate": "1.0.0"
+    "standard": "^16.0.3",
+    "winston": "3.3.3"
   }
 }

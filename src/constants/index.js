@@ -10,5 +10,5 @@ module.exports = {
     MIN_KEY_LENGTH: 1,
     MAX_KEY_LENGTH: 30,
     MAX_VALUE_LENGTH: 100
-  } 
+  }
 }
