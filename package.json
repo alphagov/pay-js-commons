@@ -130,7 +130,7 @@
     "sinon": "^11.0.0",
     "uglify-js": "^3.6.0",
     "watchify": "^3.11.0",
-    "xo": "^0.40.0"
+    "xo": "^0.41.0"
   },
   "directories": {
     "lib": "lib"
