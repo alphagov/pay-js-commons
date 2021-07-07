@@ -1,6 +1,6 @@
 {
   "name": "@govuk-pay/pay-js-commons",
-  "version": "3.2.0",
+  "version": "3.2.1",
   "description": "Reusable js scripts for GOV.UK Pay Node.js projects",
   "main": "lib/index.js",
   "scripts": {
@@ -128,6 +128,7 @@
     "lint-staged": "^11.0.0",
     "mocha": "^8.0.1",
     "sinon": "^11.0.0",
+    "standard": "^16.0.3",
     "uglify-js": "^3.6.0",
     "watchify": "^3.11.0",
     "xo": "^0.41.0"
@@ -140,7 +141,6 @@
     "moment-timezone": "0.5.33",
     "rfc822-validate": "1.0.0",
     "slugify": "1.5.3",
-    "standard": "^16.0.3",
     "winston": "3.3.3"
   }
 }
