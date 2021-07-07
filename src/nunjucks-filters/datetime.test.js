@@ -12,6 +12,10 @@ describe('When an ISO timestring is passed through the  Nunjucks date/time filte
   it('it should output a human readable date', () => {
     expect(dateTimeFilter(isoDateString, 'date')).to.equal('11/12/2017')
   })
+
+  it('it should output a human readable long date', () => {
+    expect(dateTimeFilter(isoDateString, 'datelong')).to.equal('11 December 2017')
+  })
   it('it should output a human readable time', () => {
     expect(dateTimeFilter(isoDateString, 'time')).to.equal('17:15:47')
   })
