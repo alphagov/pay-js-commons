@@ -117,7 +117,7 @@
     "husky": "^7.0.0",
     "jest": "^27.0.1",
     "js-cookie": "^3.0.0",
-    "jsdom": "^16.0.0",
+    "jsdom": "^17.0.0",
     "jsdom-global": "^3.0.2",
     "karma": "^6.0.0",
     "karma-browserify": "^8.0.0",
