@@ -10,5 +10,16 @@ module.exports = {
     MIN_KEY_LENGTH: 1,
     MAX_KEY_LENGTH: 30,
     MAX_VALUE_LENGTH: 100
+  },
+
+
+  webhooks: {
+    humanReadableSubscriptions: {
+      /*
+      Keys match those defined here:
+      https://github.com/alphagov/pay-webhooks/blob/main/src/main/java/uk/gov/pay/webhooks/eventtype/EventTypeName.java
+      */
+      CARD_PAYMENT_CAPTURED: 'Payment captured'
+    }
   }
 }
