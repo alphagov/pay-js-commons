@@ -8,12 +8,12 @@ $govuk-font-family: -apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ub
 $custom-banner-colour: #005EB8;
 $custom-banner-border-colour: #ffffff;
 $custom-text-colour: #ffffff;
-$logo-image-height: 2em;
+$logo-image-width: 215px;
 
 .custom-branding {
-  @if $logo-image-height != null {
+  @if $logo-image-width != null {
     .custom-branding-image {
-      max-height: $logo-image-height;
+      width: $logo-image-width;
 
       @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
         width: 100%;
@@ -44,6 +44,10 @@ $logo-image-height: 2em;
     border-bottom-color: $custom-banner-border-colour;
   }
 
+  .govuk-header__logo {
+    float: right;
+  }
+
   @include govuk-media-query($from: 48em) {
     .govuk-header__content {
       width: 66%;
@@ -52,7 +56,7 @@ $logo-image-height: 2em;
     }
     .govuk-header__link--service-name {
       padding-top: 15px;
-      float: right;
+      float: left;
     }
   }
 
