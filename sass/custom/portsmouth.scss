@@ -25,6 +25,17 @@ $logo-image-height: 2em;
     background-color: $custom-banner-colour;
   }
 
+  .govuk-header__logo {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+
+  @include govuk-media-query($until: tablet) {
+    .govuk-header__logo {
+      padding-left: 5px;
+    }
+  }
+
   .govuk-header__link{
     &:link,
     &:visited {
@@ -44,6 +55,7 @@ $logo-image-height: 2em;
     .govuk-header__content {
       width: 66%;
       vertical-align: bottom;
+      padding-top: 15px;
       margin-bottom: 7px;
     }
   }
