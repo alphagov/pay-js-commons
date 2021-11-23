@@ -140,7 +140,7 @@
     "lodash": "4.17.21",
     "moment-timezone": "0.5.34",
     "rfc822-validate": "1.0.0",
-    "slugify": "1.6.2",
+    "slugify": "1.6.3",
     "winston": "3.3.3"
   }
 }
