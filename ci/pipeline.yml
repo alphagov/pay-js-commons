@@ -53,7 +53,7 @@ jobs:
               - |
                 apk add --no-cache chromium
                 export CHROMIUM_BIN="$(which chromium)"
-                npm install
+                npm ci
                 npm run test
         on_failure:
           put: pull-request
