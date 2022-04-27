@@ -115,7 +115,7 @@
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-promise": "^5.1.0",
     "husky": "^7.0.0",
-    "jest": "^27.0.1",
+    "jest": "^28.0.1",
     "js-cookie": "^3.0.0",
     "jsdom": "^19.0.0",
     "jsdom-global": "^3.0.2",
