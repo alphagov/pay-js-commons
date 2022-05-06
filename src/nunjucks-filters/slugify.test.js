@@ -5,7 +5,7 @@ const slugify = require('./slugify')
 
 describe('When a string is passed through the Nunjucks slugify filter', () => {
   it('it should make it url friendly', () => {
-    expect(slugify('Someones’s string')).to.equal('someoness-string')
+    expect(slugify('Someönés*_+~.()\'"!:@?=,;{}/[]s string with-hyphen')).to.equal('someoness-string-with-hyphen')
   })
 
   it('should replace all Welsh accented vowels with unaccented characters', () => {

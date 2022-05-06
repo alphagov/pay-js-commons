@@ -22,7 +22,7 @@ module.exports = string => {
   return slugify(
     string,
     {
-      remove: /[$*_+~.()'"!:@?%=£]/g,
+      remove: /[^A-Za-z0-9\s-]/g,
       lower: true
     }
   )
