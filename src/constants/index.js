@@ -12,7 +12,6 @@ module.exports = {
     MAX_VALUE_LENGTH: 100
   },
 
-
   webhooks: {
     humanReadableSubscriptions: {
       /*

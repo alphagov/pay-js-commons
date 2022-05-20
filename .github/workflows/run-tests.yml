@@ -17,10 +17,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@dcd71f646680f2efd8db4afa5ad64fdcba30e748
+      - name: Parse Node version
+        run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
+        id: parse-node-version        
       - name: Setup
         uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a
         with:
-          node-version: 12.22.10
+          node-version: "${{ steps.parse-node-version.outputs.NVMRC }}"
       - name: Cache NPM packages
         uses: actions/cache@136d96b4aee02b1f0de3ba493b1d47135042d9c0
         with:
