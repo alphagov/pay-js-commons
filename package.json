@@ -2,6 +2,9 @@
   "name": "@govuk-pay/pay-js-commons",
   "version": "3.3.10",
   "description": "Reusable js scripts for GOV.UK Pay Node.js projects",
+  "engines": {
+    "node": "^16.14.0"
+  },  
   "main": "lib/index.js",
   "scripts": {
     "compile": "npm run transpile",
@@ -33,7 +36,6 @@
     "Google Analytics",
     "Event Tracking"
   ],
-  "author": "Jon Heslop (Government Digital Service)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/alphagov/pay-js-commons/issues"
