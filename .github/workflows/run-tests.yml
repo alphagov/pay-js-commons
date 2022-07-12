@@ -21,7 +21,7 @@ jobs:
         run: echo "##[set-output name=NVMRC;]$(cat .nvmrc)"
         id: parse-node-version        
       - name: Setup
-        uses: actions/setup-node@9ced9a43a244f3ac94f13bfd896db8c8f30da67a
+        uses: actions/setup-node@5b949b50c3461bbcd5a540b150c368278160234a
         with:
           node-version: "${{ steps.parse-node-version.outputs.NVMRC }}"
       - name: Cache NPM packages
