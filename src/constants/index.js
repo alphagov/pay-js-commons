@@ -18,8 +18,9 @@ module.exports = {
       Keys match those defined here:
       https://github.com/alphagov/pay-webhooks/blob/main/src/main/java/uk/gov/pay/webhooks/eventtype/EventTypeName.java
       */
-      CARD_PAYMENT_STARTED: 'Payment started',
       CARD_PAYMENT_SUCCEEDED: 'Payment succeeded',
+      CARD_PAYMENT_FAILED: 'Payment failed',
+      CARD_PAYMENT_EXPIRED: 'Payment expired',
       CARD_PAYMENT_CAPTURED: 'Payment captured',
       CARD_PAYMENT_REFUNDED: 'Payment refunded'
     }
