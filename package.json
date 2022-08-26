@@ -128,7 +128,7 @@
     "standard": "^16.0.3",
     "uglify-js": "^3.6.0",
     "watchify": "^4.0.0",
-    "xo": "^0.51.0"
+    "xo": "^0.52.1"
   },
   "directories": {
     "lib": "lib"
