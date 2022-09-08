@@ -103,3 +103,6 @@ exports.USER_EXTERNAL_ID = 'user_external_id'
 
 // A service's external id
 exports.SERVICE_EXTERNAL_ID = 'service_external_id'
+
+// product external id
+exports.PRODUCT_EXTERNAL_ID = 'product_external_id'
