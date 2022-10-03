@@ -1,8 +1,8 @@
 const fs = require('fs')
 const Cookies = require('js-cookie')
+const path = require('path')
 
-// eslint-disable-next-line node/no-path-concat
-const template = fs.readFileSync(`${__dirname}/banner.html`, 'utf-8')
+const template = fs.readFileSync(path.join(__dirname, 'banner.html'), 'utf-8')
 
 const GOVUK_PAY_ANALYTICS_CONSENT_COOKIE_NAME = 'govuk_pay_cookie_policy'
 const ANALYTICS_CONSENT_BANNER_ID = 'pay-cookie-banner'
