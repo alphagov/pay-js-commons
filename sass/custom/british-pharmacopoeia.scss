@@ -36,6 +36,7 @@ $logo-image-height: 1.5em;
   .govuk-header__link--service-name {
     color: $custom-text-colour;
     float: none;
+    display: none;
   }
 
   .govuk-header__container {
