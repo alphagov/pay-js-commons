@@ -1,3 +1,5 @@
 module.exports = {
-  testURL: 'http://www.example.org'
+  testEnvironmentOptions : {
+    url: 'http://www.example.org'
+  }
 }
