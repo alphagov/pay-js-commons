@@ -1,6 +1,6 @@
 {
   "name": "@govuk-pay/pay-js-commons",
-  "version": "3.8.7",
+  "version": "3.8.8",
   "description": "Reusable js scripts for GOV.UK Pay Node.js projects",
   "engines": {
     "node": "^16.14.0"
