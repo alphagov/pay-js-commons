@@ -138,6 +138,6 @@
     "moment-timezone": "0.5.43",
     "rfc822-validate": "1.0.0",
     "slugify": "1.6.6",
-    "winston": "3.8.2"
+    "winston": "3.9.0"
   }
 }
