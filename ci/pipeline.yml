@@ -12,6 +12,7 @@ resources:
       type: pull-request
       icon: github
       source:
+        disable_forks: true
         repository: alphagov/pay-js-commons
         access_token: ((github-access-token))
 
