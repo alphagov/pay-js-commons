@@ -6,6 +6,7 @@
     "node": "^16.20.1"
   },
   "main": "lib/index.js",
+  "files": ["images", "sass", "lib"],
   "scripts": {
     "compile": "npm run transpile",
     "clean": "rm -rf lib",
@@ -16,11 +17,14 @@
     "test": "npm run jest-tests npm && npm run karma-tests",
     "karma-tests": "karma start",
     "jest-tests": "jest src/analytics",
-    "lint": "./node_modules/.bin/standard --fix"
+    "lint": "standard --fix"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alphagov/pay-js-commons.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   },
   "keywords": [
     "nodejs",

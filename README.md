@@ -1,6 +1,3 @@
-[![Build Status](https://travis-ci.org/alphagov/pay-js-commons.svg?branch=master)](https://travis-ci.org/alphagov/pay-js-commons)
-
-
 # GOV.UK Pay JS Commons
 Reusable js scripts for GOV.UK Pay Node.js projects
 
@@ -10,8 +7,8 @@ Reusable js scripts for GOV.UK Pay Node.js projects
 - [Releasing a new version](#releasing-a-new-version)
 
 ## Browsered scripts
-This is a colection of client side scripts we use throught the GOV.UK 
-Pay in the browser. We call it browsered because they are written in 
+This is a collection of client side scripts we use throughout GOV.UK 
+Pay in the browser. We call it `browsered` because they are written in 
 Node.js and _browsered_ by Browserify to make them safe for all our 
 browsers. We browserify [within the microservice when it’s compiled](https://github.com/alphagov/pay-selfservice/blob/master/Gruntfile.js#L128).
 
@@ -149,7 +146,7 @@ i.e. ``< > ; : ` ( ) " \' = | , ~ [ ]``
 
 These are small functions that power the nunjucks filters but can also be used for server side stuff too.
 
-## Nunjucks filters
+### Nunjucks filters
 
 These get loaded in to the Nunjucks environment and then can apply changes to variables in templates.
 
@@ -167,18 +164,13 @@ Or a pence value can be converted to GBP
     <dd>{{ amount | penceToPounds }}</dd>
   </dl>
 ```
-# Releasing a new version
 
-Versions are released to npm, to do so you need to be a member of https://www.npmjs.com/org/govuk-pay.
+## Releasing
 
-Once you are a member run the following commands
+After a pull request is merged, Concourse will automatically create a new release pull request that increments the package version.
 
-- make sure you are on the latest master version of `pay-js-commons`
-- `npm login` (if you’re not already logged in)
-- `npm version major|minor|patch` depending on which sort of release it is
-- `npm publish`
-- A new commit is created automatically to increment the version, create a PR and merge this
+This pull request must be reviewed and merged by a developer.
 
-Once you have done this it should be available instantly you can check by visiting https://www.npmjs.com/package/@govuk-pay/pay-js-commons and looking for your release, should say _published a few seconds ago_.
+Once the release pull request is merged, GitHub Actions will publish the new versioned package to NPM.
 
-Then you can go around our repos bumping the version in this [sort of fashion](https://github.com/alphagov/pay-frontend/pull/940).
+__IMPORTANT__: Other pull requests will be blocked from merging until the release pull request is merged or closed.
