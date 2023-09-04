@@ -73,7 +73,7 @@ exports.isFieldGreaterThanMaxLengthChars = (value, maxLength) => {
 exports.isPasswordLessThanTenChars = value => !value || value.length < 10 ? validationErrors.isPasswordLessThanTenChars : false
 
 exports.isNaxsiSafe = function (value) {
-  if (/[<>;:`()"'=|,~[\]]+/g.test(value)) {
+  if (/[<>;:`()"=|,~[\]]+/g.test(value)) {
     return validationErrors.invalidCharacters
   }
   return false
