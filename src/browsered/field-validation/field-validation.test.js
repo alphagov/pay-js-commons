@@ -51,10 +51,10 @@ describe('Field validation', () => {
     it('It should show an error summary', () => {
       expect(document.querySelector('#error-summary')).to.exist // eslint-disable-line no-unused-expressions
     })
-    it(`The error summary should link to the errored input ‘${fixtures.inputId}’`, () => {
+    it(`The error summary should link to the errored input '${fixtures.inputId}'`, () => {
       expect(document.querySelector(`a[href="#${fixtures.inputId}"]`)).to.exist // eslint-disable-line no-unused-expressions
     })
-    it(`The error summary should link text should be ‘${fixtures.label}’`, () => {
+    it(`The error summary should link text should be '${fixtures.label}`, () => {
       expect(document.querySelector(`a[href="#${fixtures.inputId}"]`).innerHTML).to.equal(`${fixtures.label}`)
     })
   })
