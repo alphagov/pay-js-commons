@@ -1,13 +1,15 @@
 'use strict'
 
 module.exports = karma => karma.set({
+  basePath: './src',
   frameworks: [
     'browserify',
     'source-map-support',
     'mocha'
   ],
   files: [
-    'src/!(analytics)**/*.js'
+    'index.js',
+    '!(analytics)**/**/*.js'
   ],
   plugins: [
     'karma-mocha',
@@ -21,7 +23,7 @@ module.exports = karma => karma.set({
     transform: [['babelify']]
   },
   preprocessors: {
-    'src/**/*.js': ['browserify']
+    '**/*.js': [ 'browserify' ]
   },
   reporters: ['mocha'],
   browsers: ['ChromiumNoSandbox'],
