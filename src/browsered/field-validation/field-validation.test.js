@@ -441,7 +441,7 @@ describe('Field validation', () => {
 
     describe('where value contains NAXSI flaggable characters', () => {
       before('Act', () => {
-        document.querySelector(`#${fixtures.inputId}`).value = 'O\'Connell '
+        document.querySelector(`#${fixtures.inputId}`).value = 'O’Connell'
         document.querySelector('button').click()
       })
 
