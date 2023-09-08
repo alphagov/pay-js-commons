@@ -452,12 +452,9 @@ describe('Field validation', () => {
     })
 
     describe('where value is NAXSI safe', () => {
-      before('Act', () => {
+      it('should submit the form', () => {
         document.querySelector(`#${fixtures.inputId}`).value = '123'
         document.querySelector('button').click()
-      })
-
-      it('should submit the form', () => {
         expect(document.querySelector('#fixture').submit.called).to.equal(true)
       })
     })
