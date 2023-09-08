@@ -441,7 +441,7 @@ describe('Field validation', () => {
 
     describe('where value contains NAXSI flaggable characters', () => {
       before('Act', () => {
-        document.querySelector(`#${fixtures.inputId}`).value = '<?php echo \'bad things\'; ?>'
+        document.querySelector(`#${fixtures.inputId}`).value = '<?php echo "bad things"; ?>'
         document.querySelector('button').click()
       })
 
@@ -452,12 +452,14 @@ describe('Field validation', () => {
     })
 
     describe('where value is NAXSI safe', () => {
-      before('Act', () => {
+      it('should submit the form', () => {
         document.querySelector(`#${fixtures.inputId}`).value = '123'
         document.querySelector('button').click()
+        expect(document.querySelector('#fixture').submit.called).to.equal(true)
       })
-
-      it('should submit the form', () => {
+      it('apostrophes should be ok', () => {
+        document.querySelector(`#${fixtures.inputId}`).value = 'O’Connell'
+        document.querySelector('button').click()
         expect(document.querySelector('#fixture').submit.called).to.equal(true)
       })
     })
