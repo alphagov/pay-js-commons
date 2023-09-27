@@ -35,6 +35,14 @@ $logo-image-width-from-tablet: 350px;
     }
   }
 
+  .govuk-header__link--homepage {
+    &:hover,
+    &:active {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  }
+
   .govuk-header__link--service-name {
     color: $custom-text-colour;
   }

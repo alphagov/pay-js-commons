@@ -32,10 +32,11 @@ $logo-image-height: 3.5em;
     }
   }
 
-  .govuk-header__link--homepage{
-    &:hover {
+  .govuk-header__link--homepage {
+    &:hover,
+    &:active {
+      border-bottom: none;
       margin-bottom: 0;
-      border-bottom: inherit;
     }
   }
 
