@@ -1,21 +1,15 @@
 'use strict'
 
 const nock = require('nock')
-const sinon = require('sinon')
-const chai = require('chai')
-const chaiAsPromised = require('chai-as-promised')
 const { Client } = require('./axios-base-client')
-
-chai.use(chaiAsPromised)
-const { expect } = chai
 
 const baseUrl = 'http://localhost:8000'
 const app = 'an-app'
 
 describe('Axios base client', () => {
-  const requestStartSpy = sinon.spy()
-  const requestSuccessSpy = sinon.spy()
-  const requestFailureSpy = sinon.spy()
+  const requestStartSpy = jest.fn()
+  const requestSuccessSpy = jest.fn()
+  const requestFailureSpy = jest.fn()
   const client = new Client(app)
   client.configure(baseUrl, {
     onRequestStart: requestStartSpy,
@@ -24,39 +18,41 @@ describe('Axios base client', () => {
   })
 
   beforeEach(() => {
-    requestStartSpy.resetHistory()
-    requestFailureSpy.resetHistory()
-    requestSuccessSpy.resetHistory()
+    requestStartSpy.mockClear()
+    requestFailureSpy.mockClear()
+    requestSuccessSpy.mockClear()
   })
 
   describe('Response and hooks', () => {
-    it('should return response and call success hook on 200 response', () => {
+    it('should return response and call success hook on 200 response', async () => {
       const body = { foo: 'bar' }
       nock(baseUrl)
         .get('/')
         .reply(200, body)
 
-      return expect(client.get('/', 'doing something', {
+      const response = await client.get('/', 'doing something', {
         additionalLoggingFields: { foo: 'bar' }
-      })).to.be.fulfilled.then((response) => {
-        expect(response.data).to.deep.equal(body)
-        sinon.assert.calledWith(requestStartSpy, {
-          service: app,
-          method: 'get',
-          url: '/',
-          description: 'doing something',
-          additionalLoggingFields: { foo: 'bar' }
-        })
-        sinon.assert.calledWith(requestSuccessSpy, {
-          service: app,
-          responseTime: sinon.match.number,
-          method: 'get',
-          params: undefined,
-          status: 200,
-          url: '/',
-          description: 'doing something',
-          additionalLoggingFields: { foo: 'bar' }
-        })
+      })
+
+      expect(response.data).toEqual(body)
+
+      expect(requestStartSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        method: 'get',
+        url: '/',
+        description: 'doing something',
+        additionalLoggingFields: { foo: 'bar' }
+      })
+
+      expect(requestSuccessSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        responseTime: expect.any(Number),
+        method: 'get',
+        params: undefined,
+        status: 200,
+        url: '/',
+        description: 'doing something',
+        additionalLoggingFields: { foo: 'bar' }
       })
     })
 
