@@ -21,10 +21,17 @@ module.exports = karma => karma.set({
   ],
   browserify: {
     debug: true, // Gets us source-maps, which in turn gets us human-readable error stacks in tests
-    transform: [['babelify']]
+    transform: [[
+      'babelify',
+      {
+        global: true,
+        presets: ['@babel/preset-env']
+      }
+    ]
+    ]
   },
   preprocessors: {
-    '**/*.js': [ 'browserify' ]
+    '**/*.js': ['browserify']
   },
   reporters: ['mocha'],
   browsers: ['ChromiumNoSandbox'],

@@ -178,7 +178,6 @@ describe('Axios base client', () => {
         expect(requestFailureSpy.mock.calls[0][0].retryCount).toBeUndefined()
         expect(nock.isDone()).toEqual(true)
       }
-
     })
 
     it('should not retry for an error other than ECONNRESET', async () => {

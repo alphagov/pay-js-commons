@@ -1,7 +1,7 @@
 'use strict'
 
 const { expect } = require('chai')
-const { NotAuthenticatedError, UserAccountDisabledError, NotAuthorisedError, NotFoundError, RESTClientError} = require('./errors')
+const { NotAuthenticatedError, UserAccountDisabledError, NotAuthorisedError, NotFoundError, RESTClientError } = require('./errors')
 
 describe('Error classes', () => {
   it('should construct NotAuthenticatedError', () => {

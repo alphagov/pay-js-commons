@@ -27,7 +27,7 @@ class Client {
       }),
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        Accept: 'application/json'
       }
     })
 
