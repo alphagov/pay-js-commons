@@ -9,7 +9,11 @@ module.exports = karma => karma.set({
   ],
   files: [
     'index.js',
-    '!(analytics)**/**/!(axios-base-client.test)**.js'
+    '**/**/**.js'
+  ],
+  exclude: [
+    '**/axios-base-client.test.js',
+    'analytics/**/*.js'
   ],
   plugins: [
     'karma-mocha',
