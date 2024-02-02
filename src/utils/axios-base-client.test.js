@@ -173,8 +173,8 @@ describe('Axios base client', () => {
         })
       } catch (error) {
         expect(error.errorCode).toEqual(500)
-        requestStartSpy.mock.calls[0][0]
-        requestFailureSpy.mock.calls[0][0]
+        expect(requestStartSpy.mock.calls[0].length).toEqual(1)
+        expect(requestFailureSpy.mock.calls[0].length).toEqual(1)
         expect(requestFailureSpy.mock.calls[0][0].retryCount).toBeUndefined()
         expect(nock.isDone()).toEqual(true)
       }
@@ -194,8 +194,8 @@ describe('Axios base client', () => {
         })
       } catch (error) {
         expect(error.errorCode).toEqual(500)
-        requestStartSpy.mock.calls[0][0]
-        requestFailureSpy.mock.calls[0][0]
+        expect(requestStartSpy.mock.calls[0].length).toEqual(1)
+        expect(requestFailureSpy.mock.calls[0].length).toEqual(1)
         expect(requestFailureSpy.mock.calls[0][0].retryCount).toBeUndefined()
         expect(nock.isDone()).toEqual(true)
       }
