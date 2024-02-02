@@ -20,7 +20,7 @@
     "prepare": "npm run transpile && npm run browserify-analytics",
     "test": "npm run jest-tests npm && npm run karma-tests",
     "karma-tests": "karma start",
-    "jest-tests": "jest src/analytics",
+    "jest-tests": "jest src/analytics src/utils/axios-base-client.test.js",
     "lint": "standard --fix"
   },
   "repository": {
