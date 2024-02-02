@@ -10,7 +10,7 @@ module.exports = karma => karma.set({
   files: [
     'index.js',
     '!(analytics)**/**/*.js',
-    'utils/axios-base-client.test.js'
+    '!utils/axios-base-client.test.js'
   ],
   plugins: [
     'karma-mocha',
