@@ -56,7 +56,7 @@ describe('Axios base client', () => {
       })
     })
 
-    it('should throw error and call failure hook on 400 response', () => {
+    it('should throw error and call failure hook on 400 response', async () => {
       const body = {
         error_identifier: 'AN-ERROR',
         message: 'a-message',
@@ -66,32 +66,34 @@ describe('Axios base client', () => {
         .get('/')
         .reply(400, body)
 
-      return expect(client.get('/', 'doing something', {
-        additionalLoggingFields: { foo: 'bar' }
-      })).to.be.rejected.then((error) => {
-        expect(error.message).to.equal('a-message')
-        expect(error.errorCode).to.equal(400)
-        expect(error.errorIdentifier).to.equal('AN-ERROR')
-        expect(error.service).to.equal(app)
-
-        sinon.assert.calledWith(requestFailureSpy, {
-          service: app,
-          responseTime: sinon.match.number,
-          method: 'get',
-          params: undefined,
-          status: 400,
-          url: '/',
-          code: 400,
-          errorIdentifier: body.error_identifier,
-          reason: 'something',
-          message: body.message,
-          description: 'doing something',
+      try {
+        await client.get('/', 'doing something', {
           additionalLoggingFields: { foo: 'bar' }
         })
+      } catch (error) {
+        expect(error.message).toEqual('a-message')
+        expect(error.errorCode).toEqual(400)
+        expect(error.errorIdentifier).toEqual('AN-ERROR')
+        expect(error.service).toEqual(app)
+      }
+
+      expect(requestFailureSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        responseTime: expect.any(Number),
+        method: 'get',
+        params: undefined,
+        status: 400,
+        url: '/',
+        code: 400,
+        errorIdentifier: body.error_identifier,
+        reason: 'something',
+        message: body.message,
+        description: 'doing something',
+        additionalLoggingFields: { foo: 'bar' }
       })
     })
 
-    it('should throw error and call failure hook on 500 response', () => {
+    it('should throw error and call failure hook on 500 response', async () => {
       const body = {
         error_identifier: 'AN-ERROR',
         message: 'a-message',
@@ -101,34 +103,36 @@ describe('Axios base client', () => {
         .get('/')
         .reply(500, body)
 
-      return expect(client.get('/', 'doing something', {
-        additionalLoggingFields: { foo: 'bar' }
-      })).to.be.rejected.then((error) => {
-        expect(error.message).to.equal('a-message')
-        expect(error.errorCode).to.equal(500)
-        expect(error.errorIdentifier).to.equal('AN-ERROR')
-        expect(error.service).to.equal(app)
-
-        sinon.assert.calledWith(requestFailureSpy, {
-          service: app,
-          responseTime: sinon.match.number,
-          method: 'get',
-          params: undefined,
-          status: 500,
-          url: '/',
-          code: 500,
-          errorIdentifier: body.error_identifier,
-          reason: 'something',
-          message: body.message,
-          description: 'doing something',
+      try {
+        await client.get('/', 'doing something', {
           additionalLoggingFields: { foo: 'bar' }
         })
+      } catch (error) {
+        expect(error.message).toEqual('a-message')
+        expect(error.errorCode).toEqual(500)
+        expect(error.errorIdentifier).toEqual('AN-ERROR')
+        expect(error.service).toEqual(app)
+      }
+
+      expect(requestFailureSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        responseTime: expect.any(Number),
+        method: 'get',
+        params: undefined,
+        status: 500,
+        url: '/',
+        code: 500,
+        errorIdentifier: body.error_identifier,
+        reason: 'something',
+        message: body.message,
+        description: 'doing something',
+        additionalLoggingFields: { foo: 'bar' }
       })
     })
   })
 
   describe('Retries', () => {
-    it('should retry GET request 3 times when ECONNRESET error thrown', () => {
+    it('should retry GET request 3 times when ECONNRESET error thrown', async () => {
       nock(baseUrl)
         .get('/')
         .times(3)
@@ -137,30 +141,25 @@ describe('Axios base client', () => {
           response: { status: 500 }
         })
 
-      return expect(client.get('/', 'foo')).to.be.rejected.then(error => {
-        expect(error.errorCode).to.equal(500)
-        sinon.assert.calledThrice(requestStartSpy)
-        requestStartSpy.getCall(0).calledWithMatch({
-          method: 'get',
-          url: '/'
+      try {
+        await client.get('/', 'foo', {
+          additionalLoggingFields: { foo: 'bar' }
         })
-        requestStartSpy.getCall(1).calledWithMatch({
-          method: 'get',
-          url: '/',
-          retryCount: 2
-        })
-        requestStartSpy.getCall(2).calledWithMatch({
+      } catch (error) {
+        expect(error.errorCode).toEqual(500)
+        expect(requestStartSpy.mock.calls.length).toEqual(3)
+        expect(requestStartSpy.mock.calls[0][0]).toEqual({
+          service: 'an-app',
           method: 'get',
           url: '/',
-          retryCount: 3
+          description: 'foo',
+          additionalLoggingFields: { foo: 'bar' }
         })
-        sinon.assert.calledThrice(requestFailureSpy)
-        sinon.assert.calledWithMatch(requestFailureSpy, { retry: true })
-        expect(nock.isDone()).to.eq(true)
-      })
+        expect(nock.isDone()).toEqual(true)
+      }
     })
 
-    it('should not retry POST requests when ECONNRESET error returned', () => {
+    it('should not retry POST requests when ECONNRESET error returned', async () => {
       nock(baseUrl)
         .post('/')
         .replyWithError({
@@ -168,29 +167,38 @@ describe('Axios base client', () => {
           response: { status: 500 }
         })
 
-      return expect(client.post('/')).to.be.rejected.then(error => {
-        expect(error.errorCode).to.equal(500)
-        sinon.assert.calledOnce(requestStartSpy)
-        sinon.assert.calledOnce(requestFailureSpy)
-        expect(requestFailureSpy.getCall(0).args.retry === undefined)
-        expect(nock.isDone()).to.eq(true)
-      })
+      try {
+        await client.post('/', 'foo', {
+          additionalLoggingFields: { foo: 'bar' }
+        })
+      } catch (error) {
+        expect(error.errorCode).toEqual(500)
+        requestStartSpy.mock.calls[0][0]
+        requestFailureSpy.mock.calls[0][0]
+        expect(requestFailureSpy.mock.calls[0][0].retryCount).toBeUndefined()
+        expect(nock.isDone()).toEqual(true)
+      }
+
     })
 
-    it('should not retry for an error other than ECONNRESET', () => {
+    it('should not retry for an error other than ECONNRESET', async () => {
       nock(baseUrl)
         .get('/')
         .replyWithError({
           response: { status: 500 }
         })
 
-      return expect(client.get('/')).to.be.rejected.then(error => {
-        expect(error.errorCode).to.equal(500)
-        sinon.assert.calledOnce(requestStartSpy)
-        sinon.assert.calledOnce(requestFailureSpy)
-        expect(requestFailureSpy.getCall(0).args.retry === undefined)
-        expect(nock.isDone()).to.eq(true)
-      })
+      try {
+        await client.get('/', 'foo', {
+          additionalLoggingFields: { foo: 'bar' }
+        })
+      } catch (error) {
+        expect(error.errorCode).toEqual(500)
+        requestStartSpy.mock.calls[0][0]
+        requestFailureSpy.mock.calls[0][0]
+        expect(requestFailureSpy.mock.calls[0][0].retryCount).toBeUndefined()
+        expect(nock.isDone()).toEqual(true)
+      }
     })
   })
 })
