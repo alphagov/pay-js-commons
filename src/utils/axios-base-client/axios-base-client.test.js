@@ -129,6 +129,75 @@ describe('Axios base client', () => {
         additionalLoggingFields: { foo: 'bar' }
       })
     })
+
+    it('should return response and call success hook on 200 response for PUT request', async () => {
+      nock(baseUrl)
+        .put('/')
+        .reply(200)
+
+      await client.put('/', {}, 'PUT example', { additionalLoggingFields: { foo: 'bar' } })
+
+      expect(requestStartSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        method: 'put',
+        url: '/',
+        description: 'PUT example',
+        additionalLoggingFields: { foo: 'bar' }
+      })
+
+      expect(requestSuccessSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        responseTime: expect.any(Number),
+        method: 'put',
+        params: undefined,
+        status: 200,
+        url: '/',
+        description: 'PUT example',
+        additionalLoggingFields: { foo: 'bar' }
+      })
+    })
+
+    it('should return response and call success hook on 200 response for PATCH request ', async () => {
+      const body = {
+        foo: 'baz'
+      }
+      nock(baseUrl)
+        .patch('/')
+        .reply(200, body )
+
+      await client.patch('/', { foo: 'bar' }, 'PATCH example', { additionalLoggingFields: { foo: 'bar' } })
+
+      expect(requestStartSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        method: 'patch',
+        url: '/',
+        description: 'PATCH example',
+        additionalLoggingFields: { foo: 'bar' }
+      })
+
+      expect(requestSuccessSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        responseTime: expect.any(Number),
+        method: 'patch',
+        params: undefined,
+        status: 200,
+        url: '/',
+        description: 'PATCH example',
+        additionalLoggingFields: { foo: 'bar' }
+      })
+    })
+
+    it('should return response and call success hook on 200 response for DELETE request ', async () => {
+      const body = {}
+      nock(baseUrl)
+        .delete('/')
+        .reply(200, body )
+
+      client.delete('/', 'DELETE example', { additionalLoggingFields: { foo: 'bar' } })
+
+      expect(requestStartSpy.mock.calls).toEqual([])
+      expect(requestSuccessSpy.mock.calls).toEqual([])
+    })
   })
 
   describe('Retries', () => {
