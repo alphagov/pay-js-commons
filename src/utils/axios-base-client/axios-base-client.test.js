@@ -70,6 +70,7 @@ describe('Axios base client', () => {
         await client.get('/', 'doing something', {
           additionalLoggingFields: { foo: 'bar' }
         })
+        throw new Error('test did not throw error in the correct place')
       } catch (error) {
         expect(error.message).toEqual('a-message')
         expect(error.errorCode).toEqual(400)
@@ -107,6 +108,7 @@ describe('Axios base client', () => {
         await client.get('/', 'doing something', {
           additionalLoggingFields: { foo: 'bar' }
         })
+        throw new Error('test did not throw error in the correct place')
       } catch (error) {
         expect(error.message).toEqual('a-message')
         expect(error.errorCode).toEqual(500)
@@ -214,6 +216,7 @@ describe('Axios base client', () => {
         await client.get('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
+        throw new Error('test did not throw error in the correct place')
       } catch (error) {
         expect(error.errorCode).toEqual(500)
         expect(requestStartSpy.mock.calls.length).toEqual(3)
@@ -240,6 +243,7 @@ describe('Axios base client', () => {
         await client.post('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
+        throw new Error('test did not throw error in the correct place')
       } catch (error) {
         expect(error.errorCode).toEqual(500)
         expect(requestStartSpy.mock.calls[0].length).toEqual(1)
@@ -261,6 +265,7 @@ describe('Axios base client', () => {
         await client.get('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
+        throw new Error('test did not throw error in the correct place')
       } catch (error) {
         expect(error.errorCode).toEqual(500)
         expect(requestStartSpy.mock.calls[0].length).toEqual(1)
