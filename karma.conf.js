@@ -12,7 +12,7 @@ module.exports = karma => karma.set({
     '**/**/**.js'
   ],
   exclude: [
-    '**/axios-base-client.test.js',
+    '**/https-base-client.test.js',
     'analytics/**/*.js',
     '**/errors.test.js'
   ],
