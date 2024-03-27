@@ -5,7 +5,7 @@ const https = require('https')
 const axios = require('axios')
 const { RESTClientError } = require('./errors')
 
-class Client {
+class HttpsBaseClient {
   constructor (app) {
     this._app = app
   }
@@ -27,7 +27,7 @@ class Client {
       }),
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json'
+        Accept: 'application/json'
       }
     })
 
@@ -141,6 +141,4 @@ class Client {
   }
 }
 
-module.exports = {
-  Client
-}
+module.exports = HttpsBaseClient
