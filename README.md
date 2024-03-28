@@ -21,15 +21,23 @@ This is a collection of validators that can be applied to inputs that
 will check the values and display errors using the [GOV.UK elements styling](https://govuk-elements.herokuapp.com/errors/#summarise-errors).
 
 Validators:
-- [required](#required)
-- [currency](#currency)
-- [email](#email)
-- [phone](#phone)
-- [https](#https)
-- [belowMaxAmount](#number-is-less-than-maximum-value)
-- [passwordLessThanTenChars](#password)
-- [isFieldGreaterThanMaxLengthChars](#maximum-character-limit)
-- [isNaxsiSafe](#naxsi)
+- [GOV.UK Pay JS Commons](#govuk-pay-js-commons)
+  - [Browsered scripts](#browsered-scripts)
+      - [List of scripts](#list-of-scripts)
+    - [Field Validation](#field-validation)
+      - [Required](#required)
+      - [Currency](#currency)
+      - [Email](#email)
+      - [Phone](#phone)
+      - [HTTPS](#https)
+      - [Number is less than maximum value](#number-is-less-than-maximum-value)
+      - [Password](#password)
+      - [Maximum character limit](#maximum-character-limit)
+      - [NAXSI](#naxsi)
+  - [Utilities](#utilities)
+    - [Nunjucks filters](#nunjucks-filters)
+    - [Https base client](#https-base-client)
+  - [Releasing](#releasing)
 
 #### Required
 This requires a value from a given input
@@ -168,7 +176,7 @@ Or a pence value can be converted to GBP
 
 ### Https base client
 
-Used in our Node.js apps to call internal APIs such as connector or ledger.
+Used in our Node.js apps to call internal APIs such as connector, ledger or admin users.
 
 Uses the NPM Axios library.
 
