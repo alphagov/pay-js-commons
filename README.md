@@ -4,6 +4,7 @@ Reusable js scripts for GOV.UK Pay Node.js projects
 - [Browsered scripts](#browsered-scripts)
 - [Utilities](#utilities)
 - [Nunjucks filters](#nunjucks-filters)
+- [HTTPS base client](#https-base-client)
 - [Releasing a new version](#releasing-a-new-version)
 
 ## Browsered scripts
@@ -144,9 +145,9 @@ i.e. ``< > ; : ` ( ) " \' = | , ~ [ ]``
 
 ## Utilities
 
-These are small functions that power the nunjucks filters but can also be used for server side stuff too.
-
 ### Nunjucks filters
+
+These are small functions that power the nunjucks filters but can also be used for server side stuff too.
 
 These get loaded in to the Nunjucks environment and then can apply changes to variables in templates.
 
@@ -164,6 +165,12 @@ Or a pence value can be converted to GBP
     <dd>{{ amount | penceToPounds }}</dd>
   </dl>
 ```
+
+### Https base client
+
+Used in our Node.js apps to call internal APIs such as connector or ledger.
+
+Uses the NPM Axios library.
 
 ## Releasing
 
