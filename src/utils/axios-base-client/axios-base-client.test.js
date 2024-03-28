@@ -1,17 +1,17 @@
 'use strict'
 
 const nock = require('nock')
-const HttpsBaseClient = require('./https-base-client')
+const { Client } = require('./axios-base-client')
 
 const baseUrl = 'http://localhost:8000'
 const app = 'an-app'
 
-describe('Https base client', () => {
+describe('Axios base client', () => {
   const requestStartSpy = jest.fn()
   const requestSuccessSpy = jest.fn()
   const requestFailureSpy = jest.fn()
-  const httpsBaseClient = new HttpsBaseClient(app)
-  httpsBaseClient.configure(baseUrl, {
+  const client = new Client(app)
+  client.configure(baseUrl, {
     onRequestStart: requestStartSpy,
     onSuccessResponse: requestSuccessSpy,
     onFailureResponse: requestFailureSpy
@@ -30,7 +30,7 @@ describe('Https base client', () => {
         .get('/')
         .reply(200, body)
 
-      const response = await httpsBaseClient.get('/', 'doing something', {
+      const response = await client.get('/', 'doing something', {
         additionalLoggingFields: { foo: 'bar' }
       })
 
@@ -67,7 +67,7 @@ describe('Https base client', () => {
         .reply(400, body)
 
       try {
-        await httpsBaseClient.get('/', 'doing something', {
+        await client.get('/', 'doing something', {
           additionalLoggingFields: { foo: 'bar' }
         })
         throw new Error('test did not throw error in the correct place')
@@ -105,7 +105,7 @@ describe('Https base client', () => {
         .reply(500, body)
 
       try {
-        await httpsBaseClient.get('/', 'doing something', {
+        await client.get('/', 'doing something', {
           additionalLoggingFields: { foo: 'bar' }
         })
         throw new Error('test did not throw error in the correct place')
@@ -137,7 +137,7 @@ describe('Https base client', () => {
         .put('/')
         .reply(200)
 
-      await httpsBaseClient.put('/', {}, 'PUT example', { additionalLoggingFields: { foo: 'bar' } })
+      await client.put('/', {}, 'PUT example', { additionalLoggingFields: { foo: 'bar' } })
 
       expect(requestStartSpy.mock.calls[0][0]).toEqual({
         service: app,
@@ -167,7 +167,7 @@ describe('Https base client', () => {
         .patch('/')
         .reply(200, body )
 
-      await httpsBaseClient.patch('/', { foo: 'bar' }, 'PATCH example', { additionalLoggingFields: { foo: 'bar' } })
+      await client.patch('/', { foo: 'bar' }, 'PATCH example', { additionalLoggingFields: { foo: 'bar' } })
 
       expect(requestStartSpy.mock.calls[0][0]).toEqual({
         service: app,
@@ -195,7 +195,7 @@ describe('Https base client', () => {
         .delete('/')
         .reply(200, body )
 
-      httpsBaseClient.delete('/', 'DELETE example', { additionalLoggingFields: { foo: 'bar' } })
+      client.delete('/', 'DELETE example', { additionalLoggingFields: { foo: 'bar' } })
 
       expect(requestStartSpy.mock.calls).toEqual([])
       expect(requestSuccessSpy.mock.calls).toEqual([])
@@ -213,7 +213,7 @@ describe('Https base client', () => {
         })
 
       try {
-        await httpsBaseClient.get('/', 'foo', {
+        await client.get('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
         throw new Error('test did not throw error in the correct place')
@@ -240,7 +240,7 @@ describe('Https base client', () => {
         })
 
       try {
-        await httpsBaseClient.post('/', 'foo', {
+        await client.post('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
         throw new Error('test did not throw error in the correct place')
@@ -251,6 +251,7 @@ describe('Https base client', () => {
         expect(requestFailureSpy.mock.calls[0][0].retryCount).toBeUndefined()
         expect(nock.isDone()).toEqual(true)
       }
+
     })
 
     it('should not retry for an error other than ECONNRESET', async () => {
@@ -261,7 +262,7 @@ describe('Https base client', () => {
         })
 
       try {
-        await httpsBaseClient.get('/', 'foo', {
+        await client.get('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
         throw new Error('test did not throw error in the correct place')
