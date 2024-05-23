@@ -28,6 +28,9 @@ class Client {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
+      },
+      validateStatus: function (status) {
+        return status < 600
       }
     })
 
@@ -56,7 +59,7 @@ class Client {
       }
     })
 
-    this._axios.interceptors.response.use((response) => {
+    this._axios.interceptors.response.use(async (response) => {
       const responseContext = {
         service: this._app,
         responseTime: Date.now() - (response.config).metadata.start,
@@ -65,47 +68,49 @@ class Client {
         status: response.status,
         url: response.config.url,
         description: response.config.description,
-        additionalLoggingFields: response.config.additionalLoggingFields
+        additionalLoggingFields: response.config.additionalLoggingFields,
+        code: response.status,
+        errorIdentifier: response.data && response.data.error_identifier ? response.data.error_identifier : null,
+        reason: response.data && response.data.reason ? response.data.reason : null,
+        message: response.data && response.data.message ? response.data.message : null
       }
+
+      if (response.config.method === 'get' && response.data.code === 'ECONNRESET') {
+        const retryCount = response.config.retryCount || 0
+
+        if (retryCount < 2) {
+          response.config.retryCount = retryCount + 1
+
+          if (options.onSuccessResponse) {
+            options.onSuccessResponse(responseContext)
+          }
+
+          await new Promise(resolve => setTimeout(resolve, 500))
+          return this._axios(response.config)
+        }
+      }
+
       if (options.onSuccessResponse) {
         options.onSuccessResponse(responseContext)
       }
+
       return response
     }, async (error) => {
       const config = error.config || {}
-      let errors = error.response.data && (error.response.data.message || error.response.data.errors)
-      if (errors && Array.isArray(errors)) {
-        errors = errors.join(', ')
-      }
+
       const errorContext = {
         service: this._app,
         responseTime: Date.now() - (config.metadata && config.metadata.start),
         method: config.method,
-        params: config.params,
-        status: error.response && error.response.status,
+        status: (error.response && error.response.status) || error.status,
         url: config.url,
-        code: (error.response && error.response.status) || error.code,
-        errorIdentifier: error.response && error.response.data && error.response.data.error_identifier,
-        reason: error.response && error.response.data && error.response.data.reason,
-        message: errors || error.response.data || 'Unknown error',
+        params: config.params,
+        code: (error.response && error.response.data && error.response.data.code) || error.code,
+        message: error.message || 'Unknown error',
         description: config.description,
         additionalLoggingFields: config.additionalLoggingFields
       }
 
-      // TODO: could use axios-retry to achieve this if desired
-      // Retry ECONNRESET errors for GET requests 3 times in total
-      if (config.method === 'get' && error.code === 'ECONNRESET') {
-        const retryCount = config.retryCount || 0
-        if (retryCount < 2) {
-          config.retryCount = retryCount + 1
-          if (options.onFailureResponse) {
-            errorContext.retry = true
-            options.onFailureResponse(errorContext)
-          }
-          await new Promise(resolve => setTimeout(resolve, 500))
-          return this._axios(config)
-        }
-      }
       if (options.onFailureResponse) {
         options.onFailureResponse(errorContext)
       }
