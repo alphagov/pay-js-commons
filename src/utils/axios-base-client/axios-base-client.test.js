@@ -320,7 +320,7 @@ describe('Axios base client', () => {
   })
 
   describe('Error calling API', () => {
-    it.only('should return response and call hook on 200 response for DELETE request ', async () => {
+    it('should return response and call hook on 200 response for DELETE request ', async () => {
       const body = {}
       nock(baseUrl)
         .post('/')
