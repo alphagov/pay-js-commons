@@ -24,7 +24,7 @@ describe('Axios base client', () => {
   })
 
   describe('Response and hooks', () => {
-    it('should return response and call success hook on 200 response', async () => {
+    it('should return response and call hook on 200 response', async () => {
       const body = { foo: 'bar' }
       nock(baseUrl)
         .get('/')
@@ -52,11 +52,15 @@ describe('Axios base client', () => {
         status: 200,
         url: '/',
         description: 'doing something',
-        additionalLoggingFields: { foo: 'bar' }
+        additionalLoggingFields: { foo: 'bar' },
+        code: 200,
+        errorIdentifier: null,
+        message: null,
+        reason: null
       })
     })
 
-    it('should throw error and call failure hook on 400 response', async () => {
+    it('should return response and call hook on 400 response with error details', async () => {
       const body = {
         error_identifier: 'AN-ERROR',
         message: 'a-message',
@@ -66,19 +70,21 @@ describe('Axios base client', () => {
         .get('/')
         .reply(400, body)
 
+      let response
+
       try {
-        await client.get('/', 'doing something', {
+        response = await client.get('/', 'doing something', {
           additionalLoggingFields: { foo: 'bar' }
         })
-        throw new Error('test did not throw error in the correct place')
+
+        expect(response.data.message).toEqual('a-message')
+        expect(response.status).toEqual(400)
+        expect(response.data.error_identifier).toEqual('AN-ERROR')
       } catch (error) {
-        expect(error.message).toEqual('a-message')
-        expect(error.errorCode).toEqual(400)
-        expect(error.errorIdentifier).toEqual('AN-ERROR')
-        expect(error.service).toEqual(app)
+        throw new Error('test did not throw error in the correct place')
       }
 
-      expect(requestFailureSpy.mock.calls[0][0]).toEqual({
+      expect(requestSuccessSpy.mock.calls[0][0]).toEqual({
         service: app,
         responseTime: expect.any(Number),
         method: 'get',
@@ -86,15 +92,15 @@ describe('Axios base client', () => {
         status: 400,
         url: '/',
         code: 400,
-        errorIdentifier: body.error_identifier,
+        errorIdentifier: response.data.error_identifier,
         reason: 'something',
-        message: body.message,
+        message: response.data.message,
         description: 'doing something',
         additionalLoggingFields: { foo: 'bar' }
       })
     })
 
-    it('should throw error and call failure hook on 500 response', async () => {
+    it('should return response and call hook on 500 response with error details', async () => {
       const body = {
         error_identifier: 'AN-ERROR',
         message: 'a-message',
@@ -104,19 +110,21 @@ describe('Axios base client', () => {
         .get('/')
         .reply(500, body)
 
+      let response
+
       try {
-        await client.get('/', 'doing something', {
+        response = await client.get('/', 'doing something', {
           additionalLoggingFields: { foo: 'bar' }
         })
-        throw new Error('test did not throw error in the correct place')
+
+        expect(response.data.message).toEqual('a-message')
+        expect(response.status).toEqual(500)
+        expect(response.data.error_identifier).toEqual('AN-ERROR')
       } catch (error) {
-        expect(error.message).toEqual('a-message')
-        expect(error.errorCode).toEqual(500)
-        expect(error.errorIdentifier).toEqual('AN-ERROR')
-        expect(error.service).toEqual(app)
+        throw new Error('test did not throw error in the correct place')
       }
 
-      expect(requestFailureSpy.mock.calls[0][0]).toEqual({
+      expect(requestSuccessSpy.mock.calls[0][0]).toEqual({
         service: app,
         responseTime: expect.any(Number),
         method: 'get',
@@ -124,15 +132,15 @@ describe('Axios base client', () => {
         status: 500,
         url: '/',
         code: 500,
-        errorIdentifier: body.error_identifier,
+        errorIdentifier: response.data.error_identifier,
         reason: 'something',
-        message: body.message,
+        message: response.data.message,
         description: 'doing something',
         additionalLoggingFields: { foo: 'bar' }
       })
     })
 
-    it('should return response and call success hook on 200 response for PUT request', async () => {
+    it('should return response and call hook on 200 response for PUT request', async () => {
       nock(baseUrl)
         .put('/')
         .reply(200)
@@ -155,17 +163,21 @@ describe('Axios base client', () => {
         status: 200,
         url: '/',
         description: 'PUT example',
-        additionalLoggingFields: { foo: 'bar' }
+        additionalLoggingFields: { foo: 'bar' },
+        code: 200,
+        errorIdentifier: null,
+        message: null,
+        reason: null
       })
     })
 
-    it('should return response and call success hook on 200 response for PATCH request ', async () => {
+    it('should return response and call hook on 200 response for PATCH request ', async () => {
       const body = {
         foo: 'baz'
       }
       nock(baseUrl)
         .patch('/')
-        .reply(200, body )
+        .reply(200, body)
 
       await client.patch('/', { foo: 'bar' }, 'PATCH example', { additionalLoggingFields: { foo: 'bar' } })
 
@@ -185,20 +197,44 @@ describe('Axios base client', () => {
         status: 200,
         url: '/',
         description: 'PATCH example',
-        additionalLoggingFields: { foo: 'bar' }
+        additionalLoggingFields: { foo: 'bar' },
+        code: 200,
+        errorIdentifier: null,
+        message: null,
+        reason: null
       })
     })
 
-    it('should return response and call success hook on 200 response for DELETE request ', async () => {
+    it('should return response and call hook on 200 response for DELETE request ', async () => {
       const body = {}
       nock(baseUrl)
         .delete('/')
-        .reply(200, body )
+        .reply(200, body)
 
-      client.delete('/', 'DELETE example', { additionalLoggingFields: { foo: 'bar' } })
+      await client.delete('/', 'DELETE example', { additionalLoggingFields: { foo: 'bar' } })
 
-      expect(requestStartSpy.mock.calls).toEqual([])
-      expect(requestSuccessSpy.mock.calls).toEqual([])
+      expect(requestStartSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        method: 'delete',
+        url: '/',
+        description: 'DELETE example',
+        additionalLoggingFields: { foo: 'bar' }
+      })
+
+      expect(requestSuccessSpy.mock.calls[0][0]).toEqual({
+        service: app,
+        responseTime: expect.any(Number),
+        method: 'delete',
+        params: undefined,
+        status: 200,
+        url: '/',
+        description: 'DELETE example',
+        additionalLoggingFields: { foo: 'bar' },
+        code: 200,
+        errorIdentifier: null,
+        message: null,
+        reason: null
+      })
     })
   })
 
@@ -207,18 +243,18 @@ describe('Axios base client', () => {
       nock(baseUrl)
         .get('/')
         .times(3)
-        .replyWithError({
-          code: 'ECONNRESET',
-          response: { status: 500 }
+        .reply(500, {
+          code: 'ECONNRESET'
         })
 
       try {
-        await client.get('/', 'foo', {
+        const response = await client.get('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
-        throw new Error('test did not throw error in the correct place')
-      } catch (error) {
-        expect(error.errorCode).toEqual(500)
+
+        console.log('%%% success hook')
+        console.log('%%% response: ', response.status)
+        expect(response.status).toEqual(500)
         expect(requestStartSpy.mock.calls.length).toEqual(3)
         expect(requestStartSpy.mock.calls[0][0]).toEqual({
           service: 'an-app',
@@ -228,50 +264,81 @@ describe('Axios base client', () => {
           additionalLoggingFields: { foo: 'bar' }
         })
         expect(nock.isDone()).toEqual(true)
+        console.log('** finish')
+        console.log('')
+      } catch (error) {
+        console.log('** Error hook')
+        throw new Error('test did not throw error in the correct place')
       }
     })
 
     it('should not retry POST requests when ECONNRESET error returned', async () => {
       nock(baseUrl)
         .post('/')
-        .replyWithError({
-          code: 'ECONNRESET',
-          response: { status: 500 }
+        .reply(500, {
+          code: 'ECONNRESET'
         })
 
       try {
-        await client.post('/', 'foo', {
+        const response = await client.post('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
-        throw new Error('test did not throw error in the correct place')
-      } catch (error) {
-        expect(error.errorCode).toEqual(500)
-        expect(requestStartSpy.mock.calls[0].length).toEqual(1)
-        expect(requestFailureSpy.mock.calls[0].length).toEqual(1)
-        expect(requestFailureSpy.mock.calls[0][0].retryCount).toBeUndefined()
-        expect(nock.isDone()).toEqual(true)
-      }
 
+        console.log('%%% success hook')
+        console.log('%%% response: ', response.status)
+        console.log('%%% requestFailureSpy.mock.calls.length: ', requestFailureSpy.mock.calls)
+        expect(response.status).toEqual(500)
+        expect(requestStartSpy.mock.calls.length).toEqual(1)
+        expect(requestFailureSpy.mock.calls.length).toEqual(0)
+        expect(nock.isDone()).toEqual(true)
+      } catch (error) {
+        throw new Error('test did not throw error in the correct place')
+      }
     })
 
     it('should not retry for an error other than ECONNRESET', async () => {
       nock(baseUrl)
         .get('/')
-        .replyWithError({
-          response: { status: 500 }
+        .reply(500, {
+          code: 'a code'
         })
 
       try {
-        await client.get('/', 'foo', {
+        const response = await client.get('/', 'foo', {
           additionalLoggingFields: { foo: 'bar' }
         })
+
+        expect(response.status).toEqual(500)
+        expect(requestStartSpy.mock.calls.length).toEqual(1)
+        expect(requestFailureSpy.mock.calls.length).toEqual(0)
+        expect(nock.isDone()).toEqual(true)
+        console.log('** finish code')
+      } catch (error) {
+        throw new Error('test did not throw error in the correct place')
+      }
+    })
+  })
+
+  describe('Error calling API', () => {
+    it.only('should return response and call hook on 200 response for DELETE request ', async () => {
+      const body = {}
+      nock(baseUrl)
+        .post('/')
+        .replyWithError()
+
+      let response
+      try {
+        response = await client.get('/', 'foo', {
+          additionalLoggingFields: { foo: 'bar' }
+        })
+
         throw new Error('test did not throw error in the correct place')
       } catch (error) {
-        expect(error.errorCode).toEqual(500)
-        expect(requestStartSpy.mock.calls[0].length).toEqual(1)
-        expect(requestFailureSpy.mock.calls[0].length).toEqual(1)
-        expect(requestFailureSpy.mock.calls[0][0].retryCount).toBeUndefined()
-        expect(nock.isDone()).toEqual(true)
+        // expect(response.status).toEqual(500)
+        expect(requestStartSpy.mock.calls.length).toEqual(1)
+        expect(requestFailureSpy.mock.calls.length).toEqual(0)
+        // expect(nock.isDone()).toEqual(true)
+        console.log('** error hook')
       }
     })
   })

@@ -28,6 +28,9 @@ class Client {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
+      },
+      validateStatus: function (status) {
+        return status < 600
       }
     })
 
@@ -56,7 +59,8 @@ class Client {
       }
     })
 
-    this._axios.interceptors.response.use((response) => {
+    this._axios.interceptors.response.use(async (response) => {
+      console.log('** Axios: SUCCESS')
       const responseContext = {
         service: this._app,
         responseTime: Date.now() - (response.config).metadata.start,
@@ -65,11 +69,34 @@ class Client {
         status: response.status,
         url: response.config.url,
         description: response.config.description,
-        additionalLoggingFields: response.config.additionalLoggingFields
+        additionalLoggingFields: response.config.additionalLoggingFields,
+        code: response.status,
+        errorIdentifier: response.data && response.data.error_identifier ? response.data.error_identifier : null,
+        reason: response.data && response.data.reason ? response.data.reason : null,
+        message: response.data && response.data.message ? response.data.message : null
       }
+
+      if (response.config.method === 'get' && response.data.code === 'ECONNRESET') {
+        console.log('** method: ', response.config.method)
+        const retryCount = response.config.retryCount || 0
+
+        if (retryCount < 2) {
+          console.log('** retryCount: ', retryCount)
+          response.config.retryCount = retryCount + 1
+
+          if (options.onSuccessResponse) {
+            options.onSuccessResponse(responseContext)
+          }
+
+          await new Promise(resolve => setTimeout(resolve, 500))
+          return this._axios(response.config)
+        }
+      }
+
       if (options.onSuccessResponse) {
         options.onSuccessResponse(responseContext)
       }
+
       return response
     }, async (error) => {
       const config = error.config || {}
@@ -92,20 +119,8 @@ class Client {
         additionalLoggingFields: config.additionalLoggingFields
       }
 
-      // TODO: could use axios-retry to achieve this if desired
-      // Retry ECONNRESET errors for GET requests 3 times in total
-      if (config.method === 'get' && error.code === 'ECONNRESET') {
-        const retryCount = config.retryCount || 0
-        if (retryCount < 2) {
-          config.retryCount = retryCount + 1
-          if (options.onFailureResponse) {
-            errorContext.retry = true
-            options.onFailureResponse(errorContext)
-          }
-          await new Promise(resolve => setTimeout(resolve, 500))
-          return this._axios(config)
-        }
-      }
+      console.log('** error: ', error)
+
       if (options.onFailureResponse) {
         options.onFailureResponse(errorContext)
       }
