@@ -30,7 +30,10 @@ class Client {
         'Accept': 'application/json'
       },
       validateStatus: function (status) {
-        return status < 600
+        const result = status < 600
+        console.log(`<><><><> ************ status: ${status} ************ <><><><>`)
+        console.log(`<><><><> **** validateStatus returns: ${result} **** <><><><>`)
+        return result
       }
     })
 
