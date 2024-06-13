@@ -166,11 +166,27 @@ Or a pence value can be converted to GBP
   </dl>
 ```
 
-### Https base client
+## Axios base client
 
-Used in our Node.js apps to call internal APIs such as connector or ledger.
+Used in our Node.js apps to call APIs such as connector or ledger.
 
-Uses the NPM Axios library.
+Uses the NPM [Axios](https://www.npmjs.com/package/axios) library.
+
+The base client provides the following configuration options:
+* onRequestStart - Callback function before starting a API request.  Mainly used for logging.
+* onSuccessResponse - Callback function when request has completed successfully.
+* onFailureResponse - Callback function when request has failed.
+* acceptAllStatusCodes - `boolean`
+  * By default all non 2xx responses are considered failed requests.
+  * Set this to `true` and all status codes are considered a successful request.  You code will then need to handle the response appropriately.  Currently, only `pay-frontend` requires this to be set to `true`. 
+
+### Built in in retry functionality
+
+If a `GET` request provides a response with the error message `ECONNRESET` - the the Axios base client will automatically try that request another 2 times - 3 times in total.
+
+By default, on each failed request, it will call the `onFailureResponse` callback.
+
+If `acceptAllStatusCodes=true`, then it will call the `onSuccessResponse` callback.
 
 ## Releasing
 
