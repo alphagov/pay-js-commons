@@ -6,7 +6,7 @@
  */
 module.exports = {
   externalMetadata: {
-    MAX_KEY_VALUE_PAIRS: 10,
+    MAX_KEY_VALUE_PAIRS: 15,
     MIN_KEY_LENGTH: 1,
     MAX_KEY_LENGTH: 30,
     MAX_VALUE_LENGTH: 100
