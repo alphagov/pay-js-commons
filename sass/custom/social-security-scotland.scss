@@ -44,6 +44,10 @@ $logo-image-height: 2.5em;
     color: $custom-text-colour;
   }
 
+  .govuk-header__service-name {
+    color: $custom-text-colour;
+  }
+
   .govuk-header__container {
     border-bottom-color: $custom-banner-border-colour;
     border-bottom-width: 2px;
