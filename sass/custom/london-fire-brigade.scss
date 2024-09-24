@@ -48,6 +48,11 @@ $logo-image-height: 1.5em;
     float: none;
   }
 
+  .govuk-header__service-name {
+    color: $custom-text-colour;
+    float: none;
+  }
+
   .govuk-header__container {
     border-bottom-color: $custom-banner-border-colour;
   }
