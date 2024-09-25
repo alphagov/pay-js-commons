@@ -51,11 +51,7 @@ $logo-image-height: 2em;
     }
   }
 
-  .govuk-header__link--service-name {
-    color: $custom-text-colour;
-  }
-
-  .govuk-header__service-name {
+  .govuk-header__link--service-name, .govuk-header__service-name {
     color: $custom-text-colour;
   }
 

@@ -34,11 +34,7 @@ $logo-image-width-from-tablet: 252px;
     }
   }
 
-  .govuk-header__link--service-name {
-    color: $custom-text-colour;
-  }
-
-  .govuk-header__service-name {
+  .govuk-header__link--service-name, .govuk-header__service-name {
     color: $custom-text-colour;
   }
 

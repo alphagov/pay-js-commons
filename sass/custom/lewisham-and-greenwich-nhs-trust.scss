@@ -36,11 +36,7 @@ $logo-image-width: 215px;
     }
   }
 
-  .govuk-header__link--service-name {
-    color: $custom-text-colour;
-  }
-
-  .govuk-header__service-name {
+  .govuk-header__link--service-name, .govuk-header__service-name {
     color: $custom-text-colour;
   }
 
@@ -58,7 +54,7 @@ $logo-image-width: 215px;
       vertical-align: bottom;
       margin-bottom: 7px;
     }
-    .govuk-header__link--service-name {
+    .govuk-header__link--service-name, .govuk-header__service-name {
       padding-top: 15px;
       float: left;
     }
@@ -69,7 +65,7 @@ $logo-image-width: 215px;
       width: 99%;
       text-align: center;
     }
-    .govuk-header__link--service-name {
+    .govuk-header__link--service-name, .govuk-header__service-name {
       padding-top: 5px;
       float: none;
     }
