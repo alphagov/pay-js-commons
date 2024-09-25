@@ -41,13 +41,7 @@ $logo-image-height: 1.5em;
     }
   }
 
-  .govuk-header__link--service-name {
-    color: $custom-text-colour;
-    float: none;
-    display: none;
-  }
-
-  .govuk-header__service-name {
+  .govuk-header__link--service-name, .govuk-header__service-name {
     color: $custom-text-colour;
     float: none;
     display: none;
@@ -63,7 +57,7 @@ $logo-image-height: 1.5em;
       vertical-align: bottom;
       margin-bottom: 7px;
     }
-    .govuk-header__link--service-name {
+    .govuk-header__link--service-name, .govuk-header__service-name {
       padding-top: 8px;
       float: right;
     }
