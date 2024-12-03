@@ -197,3 +197,13 @@ This pull request must be reviewed and merged by a developer.
 Once the release pull request is merged, GitHub Actions will publish the new versioned package to NPM.
 
 __IMPORTANT__: Other pull requests will be blocked from merging until the release pull request is merged or closed.
+
+## Licence
+
+[MIT License](https://github.com/alphagov/pay-js-commons/blob/master/LICENSE)
+
+## Vulnerability Disclosure
+
+GOV.UK Pay aims to stay secure for everyone.
+If you are a security researcher and have discovered a security vulnerability in this code, we appreciate your help in disclosing it to us in a responsible manner.
+Please refer to our [vulnerability disclosure policy](https://www.gov.uk/help/report-vulnerability) and our [security.txt](https://vdp.cabinetoffice.gov.uk/.well-known/security.txt) file for details.
