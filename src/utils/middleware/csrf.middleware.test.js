@@ -1,5 +1,5 @@
 const { expect } = require('chai')
-const { configureCsrfMiddleware } = require('./csrf.middleware')
+const { configureCsrfMiddleware, CsrfError } = require('./csrf.middleware')
 const csrf = require('csrf')
 const sinon = require('sinon')
 
@@ -78,8 +78,8 @@ describe('CSRF Middleware', () => {
 
       middleware.checkToken(mockReq, mockRes, mockNext)
 
-      expect(mockNext.calledWith(sinon.match.instanceOf(Error))).to.be.true // eslint-disable-line
-      expect(mockNext.args[0][0].message).to.equal('Invalid CSRF token')
+      expect(mockNext.calledWith(sinon.match.instanceOf(CsrfError))).to.be.true // eslint-disable-line
+      expect(mockNext.args[0][0].message).to.equal('CSRF token was not found in body or query for PUT/POST request')
     })
 
     it('should reject PUT requests without token', () => {
@@ -87,8 +87,8 @@ describe('CSRF Middleware', () => {
 
       middleware.checkToken(mockReq, mockRes, mockNext)
 
-      expect(mockNext.calledWith(sinon.match.instanceOf(Error))).to.be.true // eslint-disable-line
-      expect(mockNext.args[0][0].message).to.equal('Invalid CSRF token')
+      expect(mockNext.calledWith(sinon.match.instanceOf(CsrfError))).to.be.true // eslint-disable-line
+      expect(mockNext.args[0][0].message).to.equal('CSRF token was not found in body or query for PUT/POST request')
     })
 
     it('should accept valid token in request body', () => {
@@ -117,7 +117,7 @@ describe('CSRF Middleware', () => {
 
       middleware.checkToken(mockReq, mockRes, mockNext)
 
-      expect(mockNext.calledWith(sinon.match.instanceOf(Error))).to.be.true // eslint-disable-line
+      expect(mockNext.calledWith(sinon.match.instanceOf(CsrfError))).to.be.true // eslint-disable-line
       expect(mockNext.args[0][0].message).to.equal('Invalid CSRF token')
     })
   })
