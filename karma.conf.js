@@ -14,6 +14,7 @@ module.exports = karma => karma.set({
   exclude: [
     '**/axios-base-client.test.js',
     'analytics/**/*.js',
+    'utils/middleware/**/*.js',
     '**/errors.test.js'
   ],
   plugins: [

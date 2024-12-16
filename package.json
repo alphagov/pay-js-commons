@@ -20,7 +20,7 @@
     "prepare": "npm run transpile && npm run browserify-analytics",
     "test": "npm run jest-tests npm && npm run karma-tests",
     "karma-tests": "karma start",
-    "jest-tests": "jest src/analytics src/utils/axios-base-client/axios-base-client.test.js",
+    "jest-tests": "jest src/analytics src/utils/axios-base-client/axios-base-client.test.js src/utils/middleware/*.test.js",
     "lint": "standard --fix"
   },
   "repository": {
@@ -112,6 +112,7 @@
     "@babel/cli": "^7.4.4",
     "@babel/core": "^7.4.5",
     "@babel/preset-env": "^7.4.5",
+    "@types/express": "^5.0.0",
     "babelify": "^10.0.0",
     "brfs": "^2.0.2",
     "browser-env": "^3.2.6",
@@ -144,6 +145,7 @@
   },
   "dependencies": {
     "axios": "^1.6.5",
+    "csrf": "^3.1.0",
     "lodash": "4.17.21",
     "moment-timezone": "0.5.43",
     "rfc822-validate": "1.0.0",
