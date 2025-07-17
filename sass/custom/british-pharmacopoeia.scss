@@ -51,6 +51,10 @@ $logo-image-height: 1.5em;
       border-bottom: none;
       margin-bottom: 0;
     }
+
+    &:not(:focus) {
+      background-color: transparent;
+    }
   }
 
   .govuk-header__service-name {
