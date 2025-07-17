@@ -64,7 +64,9 @@ $logo-image-width-from-tablet: 350px;
   }
 
   .govuk-header__container {
-    border-bottom-color: $custom-banner-border-colour;
+    border-bottom: 10px solid $custom-banner-border-colour;
+    margin-bottom: -10px;
+    padding-top: 10px;
   }
 
   @include govuk-media-query($from: tablet) {

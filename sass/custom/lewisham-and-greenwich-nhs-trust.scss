@@ -61,7 +61,9 @@ $logo-image-width: 215px;
   }
 
   .govuk-header__container {
-    border-bottom-color: $custom-banner-border-colour;
+    border-bottom: 10px solid $custom-banner-border-colour;
+    margin-bottom: -10px;
+    padding-top: 10px;
   }
 
   .govuk-header__logo {
