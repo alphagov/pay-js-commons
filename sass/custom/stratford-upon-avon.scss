@@ -27,6 +27,16 @@ $logo-image-height: 3em;
     border-bottom: 10px solid #ffffff;
   }
 
+  .govuk-header__logo {
+    margin-bottom: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .govuk-header__service-name {
+    margin: 0 0 15px;
+  }
+
   .govuk-header__link{
     &:link,
     &:visited {
