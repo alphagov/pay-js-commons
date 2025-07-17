@@ -10,7 +10,8 @@ $custom-banner-border-colour: #1e22aa;
 $custom-text-colour: #1e22aa;
 $logo-image-height: 4em;
 
-.custom-branding {
+.govuk-template--rebranded {
+  .custom-branding {
   @if $logo-image-height != null {
     .custom-branding-image {
       max-height: $logo-image-height;
@@ -68,3 +69,5 @@ $logo-image-height: 4em;
     padding: .368421053em .842105263em .315789474em;
   }
 }
+}
+
