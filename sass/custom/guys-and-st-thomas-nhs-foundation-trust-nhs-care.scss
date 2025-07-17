@@ -37,14 +37,23 @@ $logo-image-height: 2em;
     margin: 0 0 15px;
   }
 
-  .govuk-header__link--homepage {
-    border: none;
-  }
 
   .govuk-header__link {
     &:link,
     &:visited {
       color: $custom-text-colour;
+    }
+  }
+
+  .govuk-header__link--homepage {
+    &:hover,
+    &:active {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    &:not(:focus) {
+      background-color: transparent;
     }
   }
 
