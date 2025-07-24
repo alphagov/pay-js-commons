@@ -36,6 +36,8 @@ $logo-image-height: 2em;
     
     .govuk-header__service-name {
       margin: 0 0 15px;
+      color: $custom-text-colour;
+      display: none;
     }
     
     .govuk-header__link {
@@ -55,10 +57,6 @@ $logo-image-height: 2em;
       &:not(:focus) {
         background-color: transparent;
       }
-    }
-    
-    .govuk-header__service-name {
-      display: none;
     }
     
     .govuk-header__container {

@@ -38,6 +38,7 @@ $logo-image-width-from-tablet: 350px;
     
     .govuk-header__service-name {
       margin: 0 0 15px;
+      color: $custom-text-colour;
     }
     
     .govuk-header__link{
@@ -59,9 +60,6 @@ $logo-image-width-from-tablet: 350px;
       }
     }
     
-    .govuk-header__service-name {
-      color: $custom-text-colour;
-    }
     
     .govuk-header__container {
       border-bottom: 10px solid $custom-banner-border-colour;
