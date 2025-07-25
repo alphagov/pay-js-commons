@@ -25,17 +25,17 @@ describe('countries', () => {
     })
   })
 
-  describe('retrieveCountries', () => {
+  describe('translateAlpha2', () => {
     it('should translate country code to name', () => {
       expect(countries.translateAlpha2('GB')).to.eql('United Kingdom')
     })
 
-    it('should return null when an invalid country code is used', () => {
-      expect(countries.translateAlpha2('ZZ')).to.eql(null)
+    it('should return undefined when an invalid country code is used', () => {
+      expect(countries.translateAlpha2('ZZ')).to.eql(undefined)
     })
 
-    it('should return null when no country code is used', () => {
-      expect(countries.translateAlpha2()).to.eql(null)
+    it('should return undefined when no country code is used', () => {
+      expect(countries.translateAlpha2()).to.eql(undefined)
     })
   })
 })

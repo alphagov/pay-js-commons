@@ -41,9 +41,5 @@ exports.govukFrontendFormatted = selectedCountry => {
 exports.translateAlpha2 = alpha2Code => {
   const match = countries.find(country => country.entry.country === alpha2Code)
 
-  if (match) {
-    return match.entry.name
-  }
-
-  return null
+  return match ? match.entry.name : undefined
 }
