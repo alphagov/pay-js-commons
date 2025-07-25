@@ -38,4 +38,12 @@ exports.govukFrontendFormatted = selectedCountry => {
   return countriesList
 }
 
-exports.translateAlpha2 = alpha2Code => countries.find(country => country.entry.country === alpha2Code).entry.name
+exports.translateAlpha2 = alpha2Code => {
+  const match = countries.find(country => country.entry.country === alpha2Code)
+
+  if (match) {
+    return match.entry.name
+  }
+
+  return null
+}
