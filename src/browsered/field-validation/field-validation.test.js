@@ -1,8 +1,7 @@
-/* global before, after */
 'use strict'
 
-const { expect } = require('chai')
-const sinon = require('sinon')
+Object.defineProperty(window, 'scroll', { value: jest.fn(), writable: true })
+const { enableFieldValidation } = require('./field-validation')
 
 const MAX_AMOUNT = 100000
 
@@ -27,177 +26,183 @@ describe('Field validation', () => {
             <button type="submit">Submit</button>
           </form>`
 
-  describe('Test for general error state labels', () => {
-    before('Arrange', () => {
+  describe.only('Test for general error state labels', () => {
+    beforeAll(() => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
-      window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-      document.querySelector('#fixture').submit = sinon.spy()
-    })
+      console.log('==Inserted element:', document.querySelector('#fixture').outerHTML)
+      console.log('==Button:', document.querySelector('button').outerHTML)
+      enableFieldValidation()
+      const form = document.querySelector('#fixture')
+      form.submit = jest.fn()
 
-    before('Act', () => {
+      // form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }))
+      form.requestSubmit()
+
+      // button.dispatchEvent(new window.MouseEvent('click', { bubbles: true }))
       document.querySelector('button').click()
     })
 
-    after(() => {
+    afterAll(() => {
       document.body.innerHTML = ''
     })
 
     it('It should not submit the form', () => {
-      expect(document.querySelector('#fixture').submit.called).to.equal(false)
+      expect(document.querySelector('#fixture').submit).not.toHaveBeenCalled()
     })
     it('It should add \'error\' as a class to the .form-group', () => {
-      expect(document.querySelectorAll('.form-group')[0].classList.contains('error')).to.equal(true)
+      // expect(document.querySelectorAll('.form-group')[0].classList.contains('error')).toBe(true)
+      expect(document.querySelectorAll('.form-group')[0].classList.contains('error')).toBe(true)
     })
     it('It should show an error summary', () => {
-      expect(document.querySelector('#error-summary')).to.exist // eslint-disable-line no-unused-expressions
+      expect(document.querySelector('#error-summary')).toBeDefined() // eslint-disable-line no-unused-expressions
     })
     it(`The error summary should link to the errored input '${fixtures.inputId}'`, () => {
-      expect(document.querySelector(`a[href="#${fixtures.inputId}"]`)).to.exist // eslint-disable-line no-unused-expressions
+      expect(document.querySelector(`a[href="#${fixtures.inputId}"]`)).toBeDefined() // eslint-disable-line no-unused-expressions
     })
     it(`The error summary should link text should be '${fixtures.label}`, () => {
-      expect(document.querySelector(`a[href="#${fixtures.inputId}"]`).innerHTML).to.equal(`${fixtures.label}`)
+      expect(document.querySelector(`a[href="#${fixtures.inputId}"]`).innerHTML).toEqual((`${fixtures.label}`))
     })
   })
 
   describe('For a required input', () => {
     describe('that is left blank', () => {
-      before('Arrange', () => {
+      beforeAll(() => {
         document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
-        window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-        document.querySelector('#fixture').submit = sinon.spy()
+        enableFieldValidation()
+        document.querySelector('#fixture').submit = jest.fn()
       })
 
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector('button').click()
       })
 
-      after(() => {
+      afterAll(() => {
         document.body.innerHTML = ''
       })
 
       it('should show the error message in the label', () => {
-        expect(document.querySelector('#fixture').submit.called).to.equal(false)
-        expect(document.querySelectorAll('.error-message')[0].innerHTML).to.equal('This field cannot be blank')
+        expect(document.querySelector('#fixture').submit).not.toHaveBeenCalled()
+        expect(document.querySelectorAll('.error-message')[0].innerHTML).toEqual('This field cannot be blank')
       })
     })
 
     describe('that has value', () => {
-      before('Arrange', () => {
+      beforeAll(() => {
         document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
-        window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-        document.querySelector('#fixture').submit = sinon.spy()
+        enableFieldValidation()
+        document.querySelector('#fixture').submit = jest.fn()
       })
 
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = 'hello'
         document.querySelector('button').click()
       })
 
-      after(() => {
+      afterAll(() => {
         document.body.innerHTML = ''
       })
 
       it('should submit the form', () => {
-        expect(document.querySelector('#fixture').submit.called).to.equal(true)
+        expect(document.querySelector('#fixture').submit).toHaveBeenCalled()
       })
     })
   })
 
   describe('For a currency input', () => {
-    before('Arrange', () => {
+    beforeAll(() => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
       document.querySelector(`#${fixtures.inputId}`).dataset.validate = 'currency'
-      window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-      document.querySelector('#fixture').submit = sinon.spy()
+      enableFieldValidation()
+      document.querySelector('#fixture').submit = jest.fn()
     })
 
-    after(() => {
+    afterAll(() => {
       document.body.innerHTML = ''
     })
 
     describe('that is left blank', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector('button').click()
       })
 
       it('should show the error message in the label', () => {
-        expect(document.querySelector('#fixture').submit.called).to.equal(false)
-        expect(document.querySelectorAll('.error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
+        expect(document.querySelector('#fixture').submit).not.toHaveBeenCalled()
+        expect(document.querySelectorAll('.error-message')[0].innerHTML).toEqual('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
 
     describe('that is just non-numeric characters', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = 'hello'
         document.querySelector('button').click()
       })
 
       it('should show the error message in the label', () => {
-        expect(document.querySelector('#fixture').submit.called).to.equal(false)
-        expect(document.querySelectorAll('.error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
+        expect(document.querySelector('#fixture').submit).not.toHaveBeenCalled()
+        expect(document.querySelectorAll('.error-message')[0].innerHTML).toEqual('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
 
     describe('that has non-numeric characters in it', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '10g.00'
         document.querySelector('button').click()
       })
 
       it('should show the error message in the label', () => {
-        expect(document.querySelector('#fixture').submit.called).to.equal(false)
-        expect(document.querySelectorAll('.error-message')[0].innerHTML).to.equal('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
+        expect(document.querySelector('#fixture').submit).not.toHaveBeenCalled()
+        expect(document.querySelectorAll('.error-message')[0].innerHTML).toEqual('Choose an amount in pounds and pence using digits and a decimal point. For example “10.50”')
       })
     })
 
     describe('that is has valid currency amount in pounds with no pence', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '10'
         document.querySelector('button').click()
       })
 
       it('should submit the form', () => {
-        expect(document.querySelector('#fixture').submit.called).to.equal(true)
+        expect(document.querySelector('#fixture').submit).toHaveBeenCalled()
       })
     })
 
     describe('that is has valid currency amount in pounds and pence', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '10.00'
         document.querySelector('button').click()
       })
 
       it('should submit the form', () => {
-        expect(document.querySelector('#fixture').submit.called).to.equal(true)
+        expect(document.querySelector('#fixture').submit).toHaveBeenCalled()
       })
     })
   })
 
   describe('For an email input', () => {
-    before('Arrange', () => {
+    beforeAll(() => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
       document.querySelector(`#${fixtures.inputId}`).dataset.validate = 'email'
-      window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-      document.querySelector('#fixture').submit = sinon.spy()
+      enableFieldValidation()
+      document.querySelector('#fixture').submit = jest.fn()
     })
 
-    after(() => {
+    afterAll(() => {
       document.body.innerHTML = ''
     })
 
     describe('that is left blank', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector('button').click()
       })
 
       it('should show the error message in the label', () => {
-        expect(document.querySelector('#fixture').submit.called).to.equal(false)
-        expect(document.querySelectorAll('.error-message')[0].innerHTML).to.equal('Please use a valid email address')
+        expect(document.querySelector('#fixture').submit).not.toHaveBeenCalled()
+        expect(document.querySelectorAll('.error-message')[0].innerHTML).toEqual('Please use a valid email address')
       })
     })
 
     describe('that has invalid email', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = 'invalid@testemail'
         document.querySelector('button').click()
       })
@@ -209,7 +214,7 @@ describe('Field validation', () => {
     })
 
     describe('that is valid email', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = 'invalid@testemail.com'
         document.querySelector('button').click()
       })
@@ -221,19 +226,19 @@ describe('Field validation', () => {
   })
 
   describe('For an telephone number input', () => {
-    before('Arrange', () => {
+    beforeAll(() => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
       document.querySelector(`#${fixtures.inputId}`).dataset.validate = 'phone'
       window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-      document.querySelector('#fixture').submit = sinon.spy()
+      document.querySelector('#fixture').submit = jest.fn()
     })
 
-    after(() => {
+    afterAll(() => {
       document.body.innerHTML = ''
     })
 
     describe('that is left blank', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector('button').click()
       })
 
@@ -244,7 +249,7 @@ describe('Field validation', () => {
     })
 
     describe('that has invalid phone number', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '077'
         document.querySelector('button').click()
       })
@@ -256,7 +261,7 @@ describe('Field validation', () => {
     })
 
     describe('that is valid phone number', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '077 777 777 77'
         document.querySelector('button').click()
       })
@@ -268,19 +273,19 @@ describe('Field validation', () => {
   })
 
   describe('To check is currency and is below max amount', () => {
-    before('Arrange', () => {
+    beforeAll(() => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
       document.querySelector(`#${fixtures.inputId}`).dataset.validate = 'currency belowMaxAmount'
       window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-      document.querySelector('#fixture').submit = sinon.spy()
+      document.querySelector('#fixture').submit = jest.fn()
     })
 
-    after(() => {
+    afterAll(() => {
       document.body.innerHTML = ''
     })
 
     describe('that is left blank', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = ''
         document.querySelector('button').click()
       })
@@ -292,7 +297,7 @@ describe('Field validation', () => {
     })
 
     describe('where value is too large', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '1000000000000'
         document.querySelector('button').click()
       })
@@ -304,7 +309,7 @@ describe('Field validation', () => {
     })
 
     describe('where value is within range', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '100'
         document.querySelector('button').click()
       })
@@ -316,19 +321,19 @@ describe('Field validation', () => {
   })
 
   describe('To check if password is at least 10 characters', () => {
-    before('Arrange', () => {
+    beforeAll(() => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
       document.querySelector(`#${fixtures.inputId}`).dataset.validate = 'passwordLessThanTenChars'
       window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-      document.querySelector('#fixture').submit = sinon.spy()
+      document.querySelector('#fixture').submit = jest.fn()
     })
 
-    after(() => {
+    afterAll(() => {
       document.body.innerHTML = ''
     })
 
     describe('that is left blank', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = ''
         document.querySelector('button').click()
       })
@@ -340,7 +345,7 @@ describe('Field validation', () => {
     })
 
     describe('where value is not long enough', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '387nrd'
         document.querySelector('button').click()
       })
@@ -352,7 +357,7 @@ describe('Field validation', () => {
     })
 
     describe('where value is exactly 10 characters', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '1234567890'
         document.querySelector('button').click()
       })
@@ -363,7 +368,7 @@ describe('Field validation', () => {
     })
 
     describe('where value is long enough', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '893n7e98ynz283n98nz3'
         document.querySelector('button').click()
       })
@@ -375,15 +380,15 @@ describe('Field validation', () => {
   })
 
   describe('To check if required field is less than max characters allowed', () => {
-    before('Arrange', () => {
+    beforeAll(() => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
       document.querySelector(`#${fixtures.inputId}`).dataset.validate = 'required isFieldGreaterThanMaxLengthChars'
       window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-      document.querySelector('#fixture').submit = sinon.spy()
+      document.querySelector('#fixture').submit = jest.fn()
     })
 
     describe('that is left blank', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).dataset.validateMaxLength = '5'
         document.querySelector('button').click()
       })
@@ -395,7 +400,7 @@ describe('Field validation', () => {
     })
 
     describe('where value is too long', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).dataset.validateMaxLength = '5'
         document.querySelector(`#${fixtures.inputId}`).value = '123456'
         document.querySelector('button').click()
@@ -408,7 +413,7 @@ describe('Field validation', () => {
     })
 
     describe('where value is not too long', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).dataset.validateMaxLength = '5'
         document.querySelector(`#${fixtures.inputId}`).value = '123'
         document.querySelector('button').click()
@@ -421,15 +426,15 @@ describe('Field validation', () => {
   })
 
   describe('To check if required input is NAXSI safe', () => {
-    before('Arrange', () => {
+    beforeAll(() => {
       document.body.insertAdjacentHTML('afterbegin', fixtureHTML)
       document.querySelector(`#${fixtures.inputId}`).dataset.validate = 'required isNaxsiSafe'
       window.GOVUKPAY.browsered.fieldValidation.enableFieldValidation()
-      document.querySelector('#fixture').submit = sinon.spy()
+      document.querySelector('#fixture').submit = jest.fn()
     })
 
     describe('that is left blank', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector('button').click()
       })
 
@@ -440,7 +445,7 @@ describe('Field validation', () => {
     })
 
     describe('where value contains NAXSI flaggable characters', () => {
-      before('Act', () => {
+      beforeAll(() => {
         document.querySelector(`#${fixtures.inputId}`).value = '<?php echo "bad things"; ?>'
         document.querySelector('button').click()
       })
