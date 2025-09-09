@@ -1,7 +1,6 @@
 'use strict'
 
 // NPM dependencies
-const { expect } = require('chai')
 const {
   penceToPounds,
   poundsToPence,
@@ -19,7 +18,7 @@ const invalidAmountWithLetter = '10.50g'
 describe('Pence to pounds', () => {
   describe(`when given valid pence amount ${validPoundsAndPenceAmount}`, () => {
     it(`should return ${validPoundsAndPenceAmount}`, () => {
-      expect(penceToPounds(validPenceAmount)).to.equal(validPoundsAndPenceAmount)
+      expect(penceToPounds(validPenceAmount)).toEqual(validPoundsAndPenceAmount)
     })
   })
 })
@@ -27,7 +26,7 @@ describe('Pence to pounds', () => {
 describe('Pounds to pence', () => {
   describe(`when given valid pounds amount ${validPoundsAndPenceAmount}`, () => {
     it(`should return ${validPenceAmount}`, () => {
-      expect(poundsToPence(validPoundsAndPenceAmount)).to.equal('1050')
+      expect(poundsToPence(validPoundsAndPenceAmount)).toEqual('1050')
     })
   })
 })
@@ -35,7 +34,7 @@ describe('Pounds to pence', () => {
 describe('Pounds to pence with currency', () => {
   describe(`when given valid pence amount ${validPenceAmount}`, () => {
     it(`should return ${validPoundsAndPenceAmountWithCurrency}`, () => {
-      expect(penceToPoundsWithCurrency(validPenceAmount)).to.equal(validPoundsAndPenceAmountWithCurrency)
+      expect(penceToPoundsWithCurrency(validPenceAmount)).toEqual(validPoundsAndPenceAmountWithCurrency)
     })
   })
 })
@@ -43,25 +42,25 @@ describe('Pounds to pence with currency', () => {
 describe('Sanitise pounds and pence user input', () => {
   describe(`when given pounds and pence amount from user input ${validPoundsAndPenceAmount}`, () => {
     it(`should return ${validPenceAmount}`, () => {
-      expect(sanitisePoundsAndPenceInput(validPoundsAndPenceAmount)).to.equal(validPenceAmount)
+      expect(sanitisePoundsAndPenceInput(validPoundsAndPenceAmount)).toEqual(validPenceAmount)
     })
   })
 
   describe(`when given pounds from user input ${invalidAmountWithoutDecimals}`, () => {
     it(`should return ${validPenceAmount}`, () => {
-      expect(sanitisePoundsAndPenceInput(invalidAmountWithoutDecimals)).to.equal(1000)
+      expect(sanitisePoundsAndPenceInput(invalidAmountWithoutDecimals)).toEqual(1000)
     })
   })
 
   describe(`when given invalid pounds and pence from user input ${invalidAmountWithOneDecimals}`, () => {
     it(`should return ${validPenceAmount}`, () => {
-      expect(sanitisePoundsAndPenceInput(invalidAmountWithOneDecimals)).to.equal(validPenceAmount)
+      expect(sanitisePoundsAndPenceInput(invalidAmountWithOneDecimals)).toEqual(validPenceAmount)
     })
   })
 
   describe(`when given invalid pounds and pence from user input ${invalidAmountWithLetter}`, () => {
     it(`should return ${validPenceAmount}`, () => {
-      expect(sanitisePoundsAndPenceInput(invalidAmountWithLetter)).to.equal(validPenceAmount)
+      expect(sanitisePoundsAndPenceInput(invalidAmountWithLetter)).toEqual(validPenceAmount)
     })
   })
 })
