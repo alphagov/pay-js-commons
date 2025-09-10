@@ -120,6 +120,7 @@
     "chai": "^4.2.0",
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-promise": "^6.0.0",
+    "express": "^5.1.0",
     "jest": "^29.4.3",
     "jest-environment-jsdom": "^29.4.3",
     "js-cookie": "^3.0.0",
@@ -136,6 +137,7 @@
     "nock": "^13.5.1",
     "sinon": "^15.0.0",
     "standard": "^17.0.0",
+    "supertest": "^7.1.4",
     "uglify-js": "^3.6.0",
     "watchify": "^4.0.0",
     "xo": "^0.54.0"
@@ -146,6 +148,7 @@
   "dependencies": {
     "axios": "^1.6.5",
     "csrf": "^3.1.0",
+    "express-rate-limit": "^8.1.0",
     "lodash": "4.17.21",
     "moment-timezone": "0.5.43",
     "rfc822-validate": "1.0.0",
