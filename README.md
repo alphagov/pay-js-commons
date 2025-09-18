@@ -32,7 +32,7 @@ Validators:
 - [isNaxsiSafe](#naxsi)
 
 #### Required
-This requires a value from a given input
+This requires a value from a given input:
 
 ```html
 <form data-validate>
