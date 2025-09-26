@@ -35,10 +35,7 @@ const detectErrorsMiddleware = (logger) => {
   }
 }
 const captureEventMiddleware = (ignoredStrings, logger, Sentry) => {
-  console.log('== 1 - pay-js-commons - captureEventMiddleware')
   return (req, res) => {
-    console.log('== 2 - pay-js-commons - captureEventMiddleware')
-    console.log('== 2 - pay-js-commons - logger: ', logger)
     let reports = undefined
     if (Array.isArray(req.body) && req.body.length > 0) {
       reports = req.body.filter(report => report.type === 'csp-violation') // new style reporting-api, can be batched into multiple reports
@@ -57,14 +54,15 @@ const captureEventMiddleware = (ignoredStrings, logger, Sentry) => {
           return res.status(400).end()
         } else {
           if (hasSubstr(ignoredStrings, blockedUri)) return res.status(204).end()
-          // sentry.captureEvent({
-          //   message: `Blocked ${violatedDirective} from ${blockedUri}`,
-          //   level: 'warning',
-          //   extra: {
-          //     cspReport: body,
-          //     userAgent: userAgent
-          //   }
-          // })
+
+          Sentry.captureEvent({
+            message: `Blocked ${violatedDirective} from ${blockedUri}`,
+            level: 'warning',
+            extra: {
+              cspReport: body,
+              userAgent
+            }
+          })
         }
       })
     } else {
@@ -76,6 +74,7 @@ const captureEventMiddleware = (ignoredStrings, logger, Sentry) => {
 }
 
 module.exports = {
+  hasSubstr,
   rateLimitMiddleware,
   captureEventMiddleware,
   requestParseMiddleware,
