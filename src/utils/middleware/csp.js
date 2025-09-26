@@ -12,7 +12,9 @@ const rateLimitMiddleware = rateLimit({
 })
 
 const requestParseMiddleware = (maxPayloadBytes, express) => {
+  console.log('== 1 - pay-js-commons - requestParseMiddleware')
   return (req, res, next) => {
+    console.log('== 2 - pay-js-commons - requestParseMiddleware')
     if (req.is('application/json') || req.is('application/reports+json') || req.is('application/csp-report')) {
       express.json({
         type: ['application/json', 'application/reports+json', 'application/csp-report'],
@@ -25,7 +27,10 @@ const requestParseMiddleware = (maxPayloadBytes, express) => {
 }
 
 const detectErrorsMiddleware = (logger) => {
+  console.log('== 1 - pay-js-commons - detectErrorsMiddleware')
+
   return (err, req, res, next) => {
+    console.log('== 1 - pay-js-commons - detectErrorsMiddleware')
     if (err) {
       if (err.type === 'entity.too.large') logger.info('CSP violation request payload exceeds maximum size')
       if (err.type === 'entity.parse.failed') logger.info('CSP violation request payload did not match expected content type')
@@ -57,14 +62,15 @@ const captureEventMiddleware = (ignoredStrings, logger, Sentry) => {
           return res.status(400).end()
         } else {
           if (hasSubstr(ignoredStrings, blockedUri)) return res.status(204).end()
-          // sentry.captureEvent({
-          //   message: `Blocked ${violatedDirective} from ${blockedUri}`,
-          //   level: 'warning',
-          //   extra: {
-          //     cspReport: body,
-          //     userAgent: userAgent
-          //   }
-          // })
+
+          Sentry.captureEvent({
+            message: `Blocked ${violatedDirective} from ${blockedUri}`,
+            level: 'warning',
+            extra: {
+              cspReport: body,
+              userAgent
+            }
+          })
         }
       })
     } else {
