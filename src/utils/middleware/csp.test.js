@@ -7,8 +7,8 @@ const { expect } = require('chai')
 const loggingSpy = { info: sinon.spy() }
 const sentrySpy = { captureEvent: sinon.spy() }
 
-
 const {
+  hasSubstr,
   rateLimitMiddleware,
   captureEventMiddleware,
   requestParseMiddleware,
@@ -26,165 +26,194 @@ const cspMiddlewareStack = [
   sentrySpy)
 ]
 
-describe('CSP report endpoint', () => {
-  const underTest = express()
-  underTest.enable('trust proxy')
-  underTest.set('trust proxy', 3)
-  underTest.use('/test', cspMiddlewareStack)
+describe('CSP middleware', () => {
+  describe('hasSubstr', () => {
+    const testCase = 'lorem ipsum dolor sit amet'
 
-  beforeEach(() => {
-    loggingSpy.info.resetHistory()
-    sentrySpy.captureEvent.resetHistory()
-  })
+    it('returns true when substring is detected', () => {
+      const lookupStrings = ['ipsum']
+      const result = hasSubstr(lookupStrings, testCase)
+      expect(result).to.equal(true)
+    })
 
-  const validReportUriPayload = {
-    'csp-report': {
-      'document-uri': 'https://example.com/page-with-violation',
-      'referrer': '',
-      'violated-directive': 'script-src \'self\'',
-      'effective-directive': 'script-src',
-      'original-policy': 'default-src \'none\'; script-src \'self\'; object-src \'self\'; report-to: default',
-      'disposition': 'enforce',
-      'blocked-uri': 'https://evil.example.com/malicious.js',
-      'line-number': 22,
-      'column-number': 13,
-      'source-file': 'https://example.com/script.js',
-      'status-code': 200,
-      'script-sample': ''
-    }
-  }
+    it('returns false when substring is not detected', () => {
+      const lookupStrings = ['consectetur']
+      const result = hasSubstr(lookupStrings, testCase)
+      expect(result).to.equal(false)
+    })
 
-  const validReportingAPIPayload = [
-    {
-      'age': 2,
-      'body': {
-        'blockedURL': 'https://site2.example/script.js',
-        'disposition': 'enforce',
-        'documentURL': 'https://site.example',
-        'effectiveDirective': 'script-src-elem',
-        'originalPolicy': 'script-src \'self\'; object-src \'none\'; report-to main-endpoint;',
-        'referrer': 'https://site.example',
-        'sample': '',
-        'statusCode': 200
-      },
-      'type': 'csp-violation',
-      'url': 'https://site.example',
-      'user_agent': 'Mozilla/5.0... Chrome/92.0.4504.0'
-    }
-  ]
+    it('ignores case when comparing', () => {
+      const lookupStrings = ['DOLOR']
+      const result = hasSubstr(lookupStrings, testCase)
+      expect(result).to.equal(true)
+    })
 
-  const validPayloads = [
-    { arg: validReportUriPayload, expectedMessage: 'Blocked script-src \'self\' from https://evil.example.com/malicious.js', expectedReport: validReportUriPayload['csp-report'], type: 'report-uri' },
-    { arg: validReportingAPIPayload, expectedMessage: 'Blocked script-src-elem from https://site2.example/script.js', expectedReport: validReportingAPIPayload[0]['body'], type: 'reporting api' }
-  ]
-
-  validPayloads.forEach(test => {
-    it(`should return 204 and send to sentry if a valid ${test.type} csp report is present`, async () => {
-      await request(underTest)
-        .post('/test')
-        .set('user-agent', 'supertest')
-        .send(test.arg)
-        .expect(204)
-
-      expect(sentrySpy.captureEvent.calledOnce).to.be.true
-      expect(sentrySpy.captureEvent.calledWith({
-        message: test.expectedMessage,
-        level: 'warning',
-        extra: {
-          'cspReport': test.expectedReport,
-          'userAgent': 'supertest'
-        }
-      })).to.be.true
+    it('handles multiple lookup strings', () => {
+      const lookupStrings = ['consectetur', 'LOREM']
+      const result = hasSubstr(lookupStrings, testCase)
+      expect(result).to.equal(true)
     })
   })
 
-  it('should return 204 and not send to sentry if a valid csp report is present but the blocked-uri is ignored', async () => {
-    await request(underTest)
-      .post('/test')
-      .set('user-agent', 'supertest')
-      .send({
-        'csp-report': {
-          'blocked-uri': 'https://www.banned.com',
-          'violated-directive': 'connect-src'
-        }
-      })
-      .expect(204)
+  describe('CSP report endpoint', () => {
+    const underTest = express()
+    underTest.enable('trust proxy')
+    underTest.set('trust proxy', 3)
+    underTest.use('/test', cspMiddlewareStack)
 
-    expect(sentrySpy.captureEvent.notCalled).to.be.true
-  })
+    beforeEach(() => {
+      loggingSpy.info.resetHistory()
+      sentrySpy.captureEvent.resetHistory()
+    })
 
-  it('should return 400 if content-type is unexpected', async () => {
-    await request(underTest)
-      .post('/test')
-      .set('content-type', 'application/x-www-form-urlencoded')
-      .send(validReportUriPayload)
-      .expect(400)
-  })
-
-  it('should return 400 if payload is too large', async () => {
-
-    const largePayload = {
-      ...validReportUriPayload,
-      'large_value': 'some text here x1000'.repeat(1000)
+    const validReportUriPayload = {
+      'csp-report': {
+        'document-uri': 'https://example.com/page-with-violation',
+        'referrer': '',
+        'violated-directive': 'script-src \'self\'',
+        'effective-directive': 'script-src',
+        'original-policy': 'default-src \'none\'; script-src \'self\'; object-src \'self\'; report-to: default',
+        'disposition': 'enforce',
+        'blocked-uri': 'https://evil.example.com/malicious.js',
+        'line-number': 22,
+        'column-number': 13,
+        'source-file': 'https://example.com/script.js',
+        'status-code': 200,
+        'script-sample': ''
+      }
     }
 
-    await request(underTest)
-      .post('/test')
-      .send(largePayload)
-      .expect(400)
+    const validReportingAPIPayload = [
+      {
+        'age': 2,
+        'body': {
+          'blockedURL': 'https://site2.example/script.js',
+          'disposition': 'enforce',
+          'documentURL': 'https://site.example',
+          'effectiveDirective': 'script-src-elem',
+          'originalPolicy': 'script-src \'self\'; object-src \'none\'; report-to main-endpoint;',
+          'referrer': 'https://site.example',
+          'sample': '',
+          'statusCode': 200
+        },
+        'type': 'csp-violation',
+        'url': 'https://site.example',
+        'user_agent': 'Mozilla/5.0... Chrome/92.0.4504.0'
+      }
+    ]
 
-    expect(loggingSpy.info.calledOnce).to.be.true
-    expect(loggingSpy.info.calledWith('CSP violation request payload exceeds maximum size')).to.be.true
-  })
+    const validPayloads = [
+      { arg: validReportUriPayload, expectedMessage: 'Blocked script-src \'self\' from https://evil.example.com/malicious.js', expectedReport: validReportUriPayload['csp-report'], type: 'report-uri' },
+      { arg: validReportingAPIPayload, expectedMessage: 'Blocked script-src-elem from https://site2.example/script.js', expectedReport: validReportingAPIPayload[0]['body'], type: 'reporting api' }
+    ]
 
-  it('should return 400 if request is not JSON', async () => {
-    await request(underTest)
-      .post('/test')
-      .set('content-type', 'application/json')
-      .send('notJSON')
-      .expect(400)
+    validPayloads.forEach(test => {
+      it(`should return 204 and send to sentry if a valid ${test.type} csp report is present`, async () => {
+        await request(underTest)
+          .post('/test')
+          .set('user-agent', 'supertest')
+          .send(test.arg)
+          .expect(204)
 
-    expect(loggingSpy.info.calledOnce).to.be.true
-    expect(loggingSpy.info.calledWith('CSP violation request payload did not match expected content type')).to.be.true
-  })
+        expect(sentrySpy.captureEvent.calledOnce).to.be.true
+        expect(sentrySpy.captureEvent.calledWith({
+          message: test.expectedMessage,
+          level: 'warning',
+          extra: {
+            'cspReport': test.expectedReport,
+            'userAgent': 'supertest'
+          }
+        })).to.be.true
+      })
+    })
 
-  it('should return 400 if json does not included expected values', async () => {
-    await request(underTest)
-      .post('/test')
-      .send({ key: 'value' })
-      .expect(400)
-  })
+    it('should return 204 and not send to sentry if a valid csp report is present but the blocked-uri is ignored', async () => {
+      await request(underTest)
+        .post('/test')
+        .set('user-agent', 'supertest')
+        .send({
+          'csp-report': {
+            'blocked-uri': 'https://www.banned.com',
+            'violated-directive': 'connect-src'
+          }
+        })
+        .expect(204)
 
-  it('should return 429 if too many requests are made and respect trust proxy settings', async () => {
+      expect(sentrySpy.captureEvent.notCalled).to.be.true
+    })
 
-    // X-Forwarded-For: <client>, <proxy1>, <proxy2>, https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
-    // make 10 requests for each 'IP', the 11th should be rate limited
+    it('should return 400 if content-type is unexpected', async () => {
+      await request(underTest)
+        .post('/test')
+        .set('content-type', 'application/x-www-form-urlencoded')
+        .send(validReportUriPayload)
+        .expect(400)
+    })
 
-    for (let i = 0; i < 10; i++) {
+    it('should return 400 if payload is too large', async () => {
+
+      const largePayload = {
+        ...validReportUriPayload,
+        'large_value': 'some text here x1000'.repeat(1000)
+      }
+
+      await request(underTest)
+        .post('/test')
+        .send(largePayload)
+        .expect(400)
+
+      expect(loggingSpy.info.calledOnce).to.be.true
+      expect(loggingSpy.info.calledWith('CSP violation request payload exceeds maximum size')).to.be.true
+    })
+
+    it('should return 400 if request is not JSON', async () => {
+      await request(underTest)
+        .post('/test')
+        .set('content-type', 'application/json')
+        .send('notJSON')
+        .expect(400)
+
+      expect(loggingSpy.info.calledOnce).to.be.true
+      expect(loggingSpy.info.calledWith('CSP violation request payload did not match expected content type')).to.be.true
+    })
+
+    it('should return 400 if json does not included expected values', async () => {
+      await request(underTest)
+        .post('/test')
+        .send({ key: 'value' })
+        .expect(400)
+    })
+
+    it('should return 429 if too many requests are made and respect trust proxy settings', async () => {
+
+      // X-Forwarded-For: <client>, <proxy1>, <proxy2>, https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For
+      // make 10 requests for each 'IP', the 11th should be rate limited
+
+      for (let i = 0; i < 10; i++) {
+        await request(underTest)
+          .post('/test')
+          .set('x-forwarded-for', '1.2.3.4, 2.2.2.2, 3.3.3.3')
+          .send(validReportingAPIPayload)
+          .expect(204)
+
+        await request(underTest)
+          .post('/test')
+          .set('x-forwarded-for', '5.6.7.8, 2.2.2.2, 3.3.3.3')
+          .send(validReportUriPayload)
+          .expect(204)
+      }
+
       await request(underTest)
         .post('/test')
         .set('x-forwarded-for', '1.2.3.4, 2.2.2.2, 3.3.3.3')
-        .send(validReportingAPIPayload)
-        .expect(204)
+        .send(validReportUriPayload)
+        .expect(429)
 
       await request(underTest)
         .post('/test')
         .set('x-forwarded-for', '5.6.7.8, 2.2.2.2, 3.3.3.3')
-        .send(validReportUriPayload)
-        .expect(204)
-    }
-
-    await request(underTest)
-      .post('/test')
-      .set('x-forwarded-for', '1.2.3.4, 2.2.2.2, 3.3.3.3')
-      .send(validReportUriPayload)
-      .expect(429)
-
-    await request(underTest)
-      .post('/test')
-      .set('x-forwarded-for', '5.6.7.8, 2.2.2.2, 3.3.3.3')
-      .send(validReportingAPIPayload)
-      .expect(429)
+        .send(validReportingAPIPayload)
+        .expect(429)
+    })
   })
 })
-

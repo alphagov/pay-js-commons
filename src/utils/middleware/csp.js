@@ -34,7 +34,7 @@ const detectErrorsMiddleware = (logger) => {
     next()
   }
 }
-const captureEventMiddleware = (ignoredStrings, logger, sentry) => {
+const captureEventMiddleware = (ignoredStrings, logger, Sentry) => {
   return (req, res) => {
     let reports = undefined
     if (Array.isArray(req.body) && req.body.length > 0) {
@@ -54,12 +54,13 @@ const captureEventMiddleware = (ignoredStrings, logger, sentry) => {
           return res.status(400).end()
         } else {
           if (hasSubstr(ignoredStrings, blockedUri)) return res.status(204).end()
-          sentry.captureEvent({
+
+          Sentry.captureEvent({
             message: `Blocked ${violatedDirective} from ${blockedUri}`,
             level: 'warning',
             extra: {
               cspReport: body,
-              userAgent: userAgent
+              userAgent
             }
           })
         }
@@ -73,6 +74,7 @@ const captureEventMiddleware = (ignoredStrings, logger, sentry) => {
 }
 
 module.exports = {
+  hasSubstr,
   rateLimitMiddleware,
   captureEventMiddleware,
   requestParseMiddleware,
