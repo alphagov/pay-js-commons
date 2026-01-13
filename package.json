@@ -19,9 +19,8 @@
     "transpile": "npm run clean && babel src --out-dir lib --ignore '**/*.test.js' && npm run copy",
     "browserify-analytics": "browserify src/analytics/index.js -o lib/analytics/dist/cookies.js -t brfs -t babelify",
     "prepare": "npm run transpile && npm run browserify-analytics",
-    "test": "npm run jest-tests npm && npm run karma-tests",
+    "test": "jest",
     "karma-tests": "karma start",
-    "jest-tests": "jest src/analytics src/utils/**.test.js src/utils/**/*.test.js src/nunjucks-filters/*.test.js",
     "lint": "standard --fix"
   },
   "repository": {
