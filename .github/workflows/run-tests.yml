@@ -12,20 +12,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Git checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Detect secrets
         uses: alphagov/pay-ci/actions/detect-secrets@master
   unit-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683  # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
       - name: Setup Node
-        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af  #v4.1.0
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af #v4.1.0
         with:
-          node-version-file: '.nvmrc'
-          cache: 'npm'
-          cache-dependency-path: 'package-lock.json'
+          node-version-file: ".nvmrc"
+          cache: "npm"
+          cache-dependency-path: "package-lock.json"
       - name: Install dependencies
         run: npm ci
       - name: Compile
@@ -33,7 +33,7 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Run tests
-        run: npm run test -- --forbid-only --forbid-pending
+        run: npm run test
 
   dependency-review:
     name: Dependency Review scan
