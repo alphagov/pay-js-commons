@@ -3,7 +3,7 @@
   "version": "7.0.34",
   "description": "Reusable js scripts for GOV.UK Pay Node.js projects",
   "engines": {
-    "node": "^22.17.1",
+    "node": "^22.22.0",
     "npm": "^11.6.0"
   },
   "main": "lib/index.js",
