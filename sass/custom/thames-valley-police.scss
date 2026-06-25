@@ -1,5 +1,6 @@
 $govuk-font-family: -apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; // Override font as so not to use New Transport
-@import "application";
+@use "application";
+@use "govuk-frontend/dist/govuk" as govuk-frontend;
 
 // CUSTOM BRANDING
 // Use the variables below to control the style
@@ -64,7 +65,7 @@ $logo-image-height: 2em;
       padding-top: 10px;
     }
     
-    @include govuk-media-query($from: tablet) {
+    @include govuk-frontend.govuk-media-query($from: tablet) {
       .govuk-header__content {
         width: 66%;
         vertical-align: bottom;
