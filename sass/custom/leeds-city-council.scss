@@ -1,5 +1,6 @@
+@use "govuk-frontend/dist/govuk" as *;
 $govuk-font-family: -apple-system, BlinkMacSystemFont, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif; // Override font as so not to use New Transport
-@import "application";
+@use "application";
 
 // CUSTOM BRANDING
 // Use the variables below to control the style
