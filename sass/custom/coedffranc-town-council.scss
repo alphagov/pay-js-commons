@@ -1,5 +1,7 @@
+@use "govuk-frontend/dist/govuk" as *;
 $govuk-font-family: -apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; // Override font as so not to use New Transport
-@import "application";
+@use "application";
+@use "../base/custom-branding";
 
 // CUSTOM BRANDING
 // Use the variables below to control the style
@@ -10,7 +12,7 @@ $custom-banner-border-colour: #ffffff;
 $custom-text-colour: #ffffff;
 $logo-image-height: 5em;
 
-.govuk-template--rebranded {
+
   .custom-branding {
     @if $logo-image-height != null {
       .custom-branding-image {
@@ -33,19 +35,14 @@ $logo-image-height: 5em;
       padding-bottom: 0;
     }
     
-    .govuk-header__service-name {
-      margin: 0 0 15px;
-      color: $custom-text-colour;
-    }
-    
-    .govuk-header__link{
+    .govuk-header__homepage-link{
       &:link,
       &:visited {
         color: $custom-text-colour;
       }
     }
     
-    .govuk-header__link--homepage {
+    .govuk-header__homepage-link {
       &:hover,
       &:active {
         border-bottom: none;
@@ -63,13 +60,39 @@ $logo-image-height: 5em;
       margin-bottom: -10px;
       padding-top: 10px;
     }
+
+    .govuk-header__content {
+      padding-left: 0px;
+    }
+
+    .pay-custom-service-name {
+      color: $custom-text-colour;
+    }
+
+    @include govuk-media-query($until: 48.0625em) {
+      .pay-custom-header-logo {
+        width: 100%;
+      }
+    }
     
     @include govuk-media-query($from: tablet) {
       .govuk-header__content {
         width: 66%;
         vertical-align: bottom;
-        margin-top: 50px;
+        margin-top: 40px;
         margin-bottom: 7px;
+      }
+
+      .pay-custom-service-name {
+        font-size: 1.5rem;
+        line-height: 1.25;
+      }
+    }
+
+    @include govuk-media-query($from: 48.0625em) {
+      .govuk-header__content {
+        padding-left: 15px;
+        margin-top: 50px;
       }
     }
     
@@ -78,4 +101,4 @@ $logo-image-height: 5em;
       padding: .368421053em .842105263em .315789474em;
     }
   }
-}
+
