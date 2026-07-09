@@ -1,5 +1,7 @@
+@use "govuk-frontend/dist/govuk" as *;
 $govuk-font-family: -apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; // Override font as so not to use New Transport
-@import "application";
+@use "application";
+
 
 // CUSTOM BRANDING
 // Use the variables below to control the style
@@ -10,7 +12,6 @@ $custom-banner-border-colour: #ffffff;
 $custom-text-colour: #ffffff;
 $logo-image-height: 2em;
 
-.govuk-template--rebranded {
   .custom-branding {
     @if $logo-image-height != null {
       .custom-branding-image {
@@ -38,14 +39,14 @@ $logo-image-height: 2em;
       color: $custom-text-colour;
     }
     
-    .govuk-header__link{
+    .govuk-header__homepage-link {
       &:link,
       &:visited {
         color: $custom-text-colour;
       }
     }
     
-    .govuk-header__link--homepage {
+    .govuk-header__homepage-link {
       &:hover,
       &:active {
         border-bottom: none;
@@ -63,6 +64,24 @@ $logo-image-height: 2em;
       margin-bottom: -10px;
       padding-top: 10px;
     }
+
+    .govuk-header__content {
+      padding-left: 0px;
+    }
+
+    .pay-custom-service-name {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 1.125rem;
+      line-height: 1.1111111111;
+      font-weight: 700;
+    }
+
+    @include govuk-media-query($from: 48em) {
+      .govuk-header__content {
+        padding-left: 15px;
+      }
+    }
     
     @include govuk-media-query($from: tablet) {
       .govuk-header__content {
@@ -70,11 +89,16 @@ $logo-image-height: 2em;
         vertical-align: bottom;
         margin-bottom: 7px;
       }
+
+      .pay-custom-service-name {
+        font-size: 1.5rem;
+        line-height: 1.25;
+      }
     }
-    
+
     .govuk-button {
       padding: 7px 15px 6px;
       padding: .368421053em .842105263em .315789474em;
     }
   }
-}
+
