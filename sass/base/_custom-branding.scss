@@ -1,0 +1,42 @@
+@use "govuk-frontend/dist/govuk" as *;
+
+$custom-text-colour: #ffffff;
+
+.custom-branding {
+  .govuk-header__content {
+    padding-left: 0px;
+  }
+
+  .pay-custom-service-name {
+    margin: 0 0 15px;
+    display: inline-block;
+    font-size: 1.125rem;
+    line-height: 1.1111111111;
+    font-weight: 700;
+  }
+
+  @include govuk-media-query($until: 48.0625em) {
+    .pay-custom-header-logo {
+      width: 100%;
+    }
+  }
+
+  @include govuk-media-query($from: tablet) {
+    .govuk-header__content {
+      width: 66%;
+      vertical-align: bottom;
+      margin-bottom: 7px;
+    }
+
+    .pay-custom-service-name {
+      font-size: 1.5rem;
+      line-height: 1.25;
+    }
+  }
+
+  @include govuk-media-query($from: 48.0625em) {
+    .govuk-header__content {
+      padding-left: 15px;
+    }
+  }
+}
