@@ -149,7 +149,35 @@
   },
   "overrides": {
     "axios": "1.18.0",
-    "form-data": "^4.0.6"
+    "form-data": "^4.0.6",
+    "mocha": {
+      "serialize-javascript": "^7.0.7",
+      "brace-expansion": "^2.1.2",
+      "js-yaml": "^4.3.0"
+    },
+    "@babel/cli": {
+      "brace-expansion": "^1.1.12"
+    },
+    "browserify": {
+      "brace-expansion": "^1.1.12"
+    },
+    "eslint-plugin-import": {
+      "brace-expansion": "^1.1.12"
+    },
+    "jest": {
+      "brace-expansion": "^1.1.12"
+    },
+    "standard": {
+      "brace-expansion": "^1.1.12",
+      "js-yaml": "^4.3.0"
+    },
+    "watchify": {
+      "brace-expansion": "^1.1.12"
+    },
+    "xo": {
+      "brace-expansion": "^1.1.12",
+      "js-yaml": "^4.3.0"
+    }
   },
   "resolutions": {
     "axios": "1.18.0"
