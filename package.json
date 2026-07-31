@@ -165,7 +165,8 @@
       "brace-expansion": "^1.1.12"
     },
     "jest": {
-      "brace-expansion": "^1.1.12"
+      "brace-expansion": "^1.1.12",
+      "js-yaml": "3.15.0"
     },
     "standard": {
       "brace-expansion": "^1.1.12",
