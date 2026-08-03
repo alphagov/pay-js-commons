@@ -159,24 +159,24 @@
       "brace-expansion": "^1.1.12"
     },
     "browserify": {
-      "brace-expansion": "^1.1.12"
+      "brace-expansion": "^1.1.18"
     },
     "eslint-plugin-import": {
-      "brace-expansion": "^1.1.12"
+      "brace-expansion": "^1.1.18"
     },
     "jest": {
-      "brace-expansion": "^1.1.12",
+      "brace-expansion": "^1.1.18",
       "js-yaml": "3.15.0"
     },
     "standard": {
-      "brace-expansion": "^1.1.12",
+      "brace-expansion": "^1.1.18",
       "js-yaml": "^4.3.0"
     },
     "watchify": {
-      "brace-expansion": "^1.1.12"
+      "brace-expansion": "^1.1.18"
     },
     "xo": {
-      "brace-expansion": "^1.1.12",
+      "brace-expansion": "^1.1.18",
       "js-yaml": "^4.3.0"
     }
   },
