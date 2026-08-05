@@ -1,5 +1,11 @@
-$govuk-font-family: -apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; // Override font as so not to use New Transport
-@import "application";
+$custom-font-family: -apple-system,BlinkMacSystemFont,helvetica neue,helvetica,ubuntu,roboto,noto,segoe ui,arial,sans-serif; // Override font as so not to use New Transport
+
+@use "govuk-frontend/dist/govuk" as * with (
+  $govuk-font-family: $custom-font-family
+);
+
+@use "application";
+@use "../base/custom-branding";
 
 // CUSTOM BRANDING
 // Use the variables below to control the style
@@ -10,90 +16,104 @@ $custom-banner-border-colour: #ffffff;
 $custom-text-colour: #ffffff;
 $logo-image-width: 215px;
 
-.govuk-template--rebranded {
-  .custom-branding {
-    @if $logo-image-width != null {
-      .custom-branding-image {
-        width: $logo-image-width;
-        
-        @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-          width: 100%;
-        }
+.custom-branding {
+  @if $logo-image-width != null {
+    .custom-branding-image {
+      width: $logo-image-width;
+      
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        width: 100%;
       }
     }
-    
-    .govuk-header {
-      background-color: $custom-banner-colour;
-      border-bottom: 10px solid #ffffff;
-    }
-    
-    .govuk-header__logo {
-      margin-bottom: 10px;
-      padding-top: 0;
-      padding-bottom: 0;
-    }
-    
-    .govuk-header__service-name {
-      margin: 0 0 15px;
+  }
+  
+  .govuk-header {
+    background-color: $custom-banner-colour;
+    border-bottom: 10px solid #ffffff;
+  }
+  
+  .govuk-header__logo {
+    margin-bottom: 10px;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .govuk-header__homepage-link {
+    &:link,
+    &:visited {
       color: $custom-text-colour;
     }
-    
-    .govuk-header__link {
-      &:link,
-      &:visited {
-        color: $custom-text-colour;
-      }
+  }
+  
+  .govuk-header__homepage-link {
+    &:hover,
+    &:active {
+      border-bottom: none;
+      margin-bottom: 0;
     }
     
-    .govuk-header__link--homepage {
-      &:hover,
-      &:active {
-        border-bottom: none;
-        margin-bottom: 0;
-      }
-      
-      &:not(:focus) {
-        background-color: transparent;
-      }
+    &:not(:focus) {
+      background-color: transparent;
     }
-    
-    
-    .govuk-header__container {
-      border-bottom: 10px solid $custom-banner-border-colour;
-      margin-bottom: -10px;
-      padding-top: 10px;
+  }
+  
+  .pay-custom-service-name {
+    color: $custom-text-colour;
+    padding-top: 5px;
+    float: none;
+  }
+  
+  .govuk-header__container {
+    border-bottom: 10px solid $custom-banner-border-colour;
+    margin-bottom: -10px;
+    padding-top: 10px;
+  }
+
+  .govuk-header__content {
+    padding-left: 15px;
+    text-align: center;
+    width: 99%;
+  }
+
+  .pay-custom-header-logo {
+    float: right;
+    width: fit-content;
+    text-align: right;
+  }
+
+  @include govuk-media-query($from: 26.5625em) {
+    .govuk-header__content {
+      padding-left: 0px;
     }
-    
-    .govuk-header__logo {
-      float: right;
+  }
+
+  @include govuk-media-query($from: tablet) {
+    .govuk-header__content {
+      padding-left: 30px;
+      width: 66%;
     }
-    
-    @include govuk-media-query($from: 48em) {
-      .govuk-header__content {
-        width: 66%;
-        vertical-align: bottom;
-        margin-bottom: 7px;
-      }
-      .govuk-header__service-name {
-        padding-top: 15px;
-        float: left;
-      }
+  }
+
+  @include govuk-media-query($from: desktop) {
+    .govuk-header__content {
+      vertical-align: bottom;
+      margin-bottom: 7px;
+      padding-left: 15px;
     }
-    
-    @include govuk-media-query($until: 48em) {
-      .govuk-header__content {
-        width: 99%;
-        text-align: center;
-      }
-      .govuk-header__service-name {
-        padding-top: 5px;
-        float: none;
-      }
+
+    .pay-custom-service-name {
+      padding-top: 15px;
+      float: left;
     }
-    
-    .govuk-button {
-      padding: 7px 15px 6px;
-      padding: .368421053em .842105263em .315789474em;
+
+    .pay-custom-header-logo {
+      text-align: left;
+      width: 33.33%;
     }
+  }
+
+  .govuk-button {
+    padding: 7px 15px 6px;
+    padding: .368421053em .842105263em .315789474em;
   }
 }
